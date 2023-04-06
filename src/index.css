@@ -2,8 +2,87 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
 @layer components {
-	.container {
-		@apply mx-auto px-4;
-	}
+  .container {
+    @apply mx-auto px-4;
+  }
+}
+
+/* josefin-sans-300 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('./assets/fonts/josefin-sans-v25-latin-300.eot'); /* IE9 Compat Modes */
+  src: url('./assets/fonts/josefin-sans-v25-latin-300.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./assets/fonts/josefin-sans-v25-latin-300.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('./assets/fonts/josefin-sans-v25-latin-300.woff') format('woff'),
+    /* Modern Browsers */ url('./assets/fonts/josefin-sans-v25-latin-300.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('./assets/fonts/josefin-sans-v25-latin-300.svg#JosefinSans') format('svg'); /* Legacy iOS */
+}
+/* josefin-sans-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/josefin-sans-v25-latin-regular.eot'); /* IE9 Compat Modes */
+  src: url('./assets/fonts/josefin-sans-v25-latin-regular.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./assets/fonts/josefin-sans-v25-latin-regular.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('./assets/fonts/josefin-sans-v25-latin-regular.woff') format('woff'),
+    /* Modern Browsers */ url('./assets/fonts/josefin-sans-v25-latin-regular.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('./assets/fonts/josefin-sans-v25-latin-regular.svg#JosefinSans')
+      format('svg'); /* Legacy iOS */
+}
+/* josefin-sans-500 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('./assets/fonts/josefin-sans-v25-latin-500.eot'); /* IE9 Compat Modes */
+  src: url('./assets/fonts/josefin-sans-v25-latin-500.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./assets/fonts/josefin-sans-v25-latin-500.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('./assets/fonts/josefin-sans-v25-latin-500.woff') format('woff'),
+    /* Modern Browsers */ url('./assets/fonts/josefin-sans-v25-latin-500.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('./assets/fonts/josefin-sans-v25-latin-500.svg#JosefinSans') format('svg'); /* Legacy iOS */
+}
+/* josefin-sans-600 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('./assets/fonts/josefin-sans-v25-latin-600.eot'); /* IE9 Compat Modes */
+  src: url('./assets/fonts/josefin-sans-v25-latin-600.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./assets/fonts/josefin-sans-v25-latin-600.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('./assets/fonts/josefin-sans-v25-latin-600.woff') format('woff'),
+    /* Modern Browsers */ url('./assets/fonts/josefin-sans-v25-latin-600.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('./assets/fonts/josefin-sans-v25-latin-600.svg#JosefinSans') format('svg'); /* Legacy iOS */
+}
+/* josefin-sans-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./assets/fonts/josefin-sans-v25-latin-700.eot'); /* IE9 Compat Modes */
+  src: url('./assets/fonts/josefin-sans-v25-latin-700.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./assets/fonts/josefin-sans-v25-latin-700.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('./assets/fonts/josefin-sans-v25-latin-700.woff') format('woff'),
+    /* Modern Browsers */ url('./assets/fonts/josefin-sans-v25-latin-700.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('./assets/fonts/josefin-sans-v25-latin-700.svg#JosefinSans') format('svg'); /* Legacy iOS */
 }

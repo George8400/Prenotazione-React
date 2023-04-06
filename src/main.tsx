@@ -1,17 +1,17 @@
 import React from 'react';
-import App from './App';
 import './index.css';
-import { BrowserRouter } from 'react-router-dom';
-
+import App from './App';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
+import '../i18n';
 
 const container = document.getElementById('barbieri-widget');
 const root = createRoot(container!);
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>,
 );

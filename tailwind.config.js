@@ -1,10 +1,14 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+const { withAnimations } = require('animated-tailwindcss')
+export default withAnimations({
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      sans: ["Josefin Sans", "sans-serif"],
+    },
     extend: {
       colors: {
         light: "#FFFFFF",
@@ -35,6 +39,10 @@ export default {
           900: "#352F1D",
           950: "#1A170E"
         },
+      },
+
+      boxShadow: {
+        "full": "0 8px 30px rgb(0,0,0,0.12);",
       }
 
     },
@@ -46,4 +54,4 @@ export default {
   plugins: [
     require('tailwindcss-breakpoints-inspector'),
   ]
-}
+})
