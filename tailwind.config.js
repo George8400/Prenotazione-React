@@ -8,6 +8,7 @@ export default withAnimations({
   theme: {
     fontFamily: {
       sans: ["Josefin Sans", "sans-serif"],
+      open: ["Open Sans", "sans-serif"],
     },
     extend: {
       colors: {
@@ -48,7 +49,7 @@ export default withAnimations({
     },
     important: '.barbieri-widget',
     breakpointsInspector: {
-      position: ['bottom', 'left'],
+      position: ['top', 'left'],
     },
   },
   plugins: [

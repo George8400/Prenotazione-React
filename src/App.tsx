@@ -10,7 +10,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Navigate to="/prenotazione" />} />
       <Route path="/prenotazione" element={<Layout />}>
-        <Route path="results" element={<Results />} />
+        <Route path="" element={<Results />} />
         <Route path="checkout" element={<Checkout />} />
         <Route path="user-data" element={<UserData />} />
       </Route>

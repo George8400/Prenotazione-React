@@ -5,10 +5,15 @@ import React, { FC, Fragment } from 'react';
 interface CustomTransitionProps {
   show: boolean;
   children: React.ReactNode;
+  as?: React.ExoticComponent<{
+    children?: React.ReactNode;
+  }>;
   leaveAnimation?: boolean;
 }
 
-const CustomTransition: FC<CustomTransitionProps> = ({ children, show, leaveAnimation = true }) => {
+const CustomTransition: FC<CustomTransitionProps> = ({ children, show, as = 'span', leaveAnimation = true }) => {
+  const AS = as;
+
   return (
     <Transition
       show={show ?? false}
@@ -20,7 +25,7 @@ const CustomTransition: FC<CustomTransitionProps> = ({ children, show, leaveAnim
       leaveFrom={clsx({ leaveAnimation: 'transform opacity-100 scale-100' })}
       leaveTo={clsx({ leaveAnimation: 'transform opacity-0 scale-95' })}
     >
-      <span>{children}</span>
+      <AS>{children}</AS>
     </Transition>
   );
 };

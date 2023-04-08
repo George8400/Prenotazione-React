@@ -8,17 +8,12 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 
-const Button: FC<ButtonProps> = ({
-  variant = 'primary',
-  size = 'medium',
-  border = 'default',
-  children,
-  ...props
-}) => {
+const Button: FC<ButtonProps> = ({ variant = 'primary', size = 'medium', border = 'default', children, ...props }) => {
   return (
     <button
       {...props}
-      className={clsx('w-full', props.className, {
+      className={clsx('hover:bg-opacity-95', props.className, {
+        'w-full': !props.className,
         'bg-primary-500 text-white': variant === 'primary',
         'bg-secondary-500 text-primary-500': variant === 'secondary',
         'text-sm px-3.5 py-1': size === 'small',

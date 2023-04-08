@@ -1,11 +1,11 @@
-import React, { Fragment, useCallback, useMemo, useState } from 'react';
+import { useState } from 'react';
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
-import DatePicker, { Calendar, CalendarProps, DayValue, Locale } from '@hassanmojab/react-modern-calendar-datepicker';
+import { Calendar, CalendarProps, DayValue, Locale } from '@hassanmojab/react-modern-calendar-datepicker';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Input from '../../core/Input';
-import CustomPopover from '../../core/CustomPopover';
 import { Transition } from '@headlessui/react';
+import { utilsDate } from '../search-sidebar/utils/utils';
 
 interface CalendarButtonProps extends CalendarProps<DayValue> {
   label?: string;
@@ -17,12 +17,6 @@ interface CalendarButtonProps extends CalendarProps<DayValue> {
 const CalendarButton = ({ label, value, locale = 'en', className, placeholder, ...props }: CalendarButtonProps) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDay, setSelectedDay] = useState<DayValue>(value);
-
-  const formatDate = (date: DayValue) => {
-    if (!date) return '';
-
-    return date.day + '-' + date.month + '-' + date.year;
-  };
 
   const onChangeDate = (date: DayValue) => {
     if (!date) return;
@@ -44,10 +38,15 @@ const CalendarButton = ({ label, value, locale = 'en', className, placeholder, .
       <Input
         readOnly
         placeholder={placeholder}
-        value={formatDate(selectedDay)}
+        value={utilsDate.formatDayValueToString(selectedDay) || ''}
         Icon={CalendarIcon}
         className="!cursor-pointer"
         onClick={() => setShowCalendar(!showCalendar)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            setShowCalendar(!showCalendar);
+          }
+        }}
       />
 
       <Transition
@@ -64,9 +63,9 @@ const CalendarButton = ({ label, value, locale = 'en', className, placeholder, .
           {...props}
           value={selectedDay}
           onChange={onChangeDate}
-          calendarClassName="relative z-[1000] !w-full !max-w-full !mt-2"
+          calendarClassName="relative z-[1000] !w-full !max-w-md !mx-auto !mt-2"
           colorPrimary="#6D4A3F"
-          locale={locale === 'it' ? (customLocaleIT as Locale) : 'en'}
+          locale={locale === 'it' ? customLocaleIT : 'en'}
         />
       </Transition>
     </div>

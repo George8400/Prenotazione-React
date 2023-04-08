@@ -6,11 +6,15 @@ import CalendarButton from '../calendar/CalendarButton';
 import Button from '../../core/Button';
 import CustomDropDownMenu from '../../core/CustomPopover';
 import CustomPopover from '../../core/CustomPopover';
-import { useReducer, useState } from 'react';
+import { Fragment, RefObject, useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import CustomTransition from '../../core/CustomTransition';
-import { formatDate } from './utils/utils';
+import WrapperCard from '../../core/WrapperCard';
+import { utilsDate } from './utils/utils';
 
-interface SearchSidebarProps {}
+interface SearchSidebarProps {
+  className?: string;
+  onChangeEditing: (isEditing: boolean) => void;
+}
 
 enum DataActionKind {
   SET_START_DATE = 'SET_START_DATE',
@@ -66,48 +70,69 @@ const dataReducer = (state: DataStateType, action: DataAction) => {
   }
 };
 
-const SearchSidebar = () => {
-  const [isEditing, setIsEditing] = useState(true);
+const SearchSidebar = ({ onChangeEditing, className }: SearchSidebarProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [height, setHeight] = useState(0);
   const [dataState, dataDispatch] = useReducer(dataReducer, initialDataState);
 
+  const ref = useRef<HTMLDivElement>(null);
+
+  const onChangeIsEditing = useCallback((value: boolean) => {
+    setIsEditing(value);
+    onChangeEditing(value);
+  }, []);
+
+  useEffect(() => {
+    if (ref.current) {
+      setHeight(ref.current.offsetHeight);
+    }
+  }, [ref]);
+
   return (
-    <div className={'bg-white rounded-md shadow-full px-3 py-6  ease-in-out duration-300 h-auto'}>
+    <WrapperCard ref={ref} className={className}>
       <div className="flex justify-between items-center">
         <h3 className="font-bold text-xl">{t('La tua ricerca')}</h3>
-        <button className="flex items-center gap-1.5 text-sm text-dark" onClick={() => setIsEditing(!isEditing)}>
-          {isEditing ? (
-            <>
+        <button className="text-sm text-dark" onClick={() => onChangeIsEditing(!isEditing)}>
+          <CustomTransition show={isEditing}>
+            <span className="flex items-center gap-1.5 ">
               {t('Chiudi')}
               <XMarkIcon className="text-primary-500 w-4 h-4 mb-0.5" />
-            </>
-          ) : (
-            <>
+            </span>
+          </CustomTransition>
+
+          <CustomTransition show={!isEditing}>
+            <span className="flex items-center gap-1.5 ">
               {t('Modifica')}
               <PencilSquareIcon className="text-primary-500 w-3.5 h-3.5 mb-0.5" />
-            </>
-          )}
+            </span>
+          </CustomTransition>
         </button>
       </div>
 
       <div className="w-full mt-4 flex flex-col gap-6 justify-center">
         <CalendarButton
-          value={{ day: 2, month: 4, year: 2023 }}
+          value={utilsDate.formatStringToDayValue('02/04/2023')}
           label={t('Arrivo').toString()}
           placeholder={t('Seleziona data di arrivo').toString()}
           locale="it"
           onChange={(value) => {
-            dataDispatch({ type: DataActionKind.SET_START_DATE, payload: formatDate(value) ?? '' });
+            dataDispatch({
+              type: DataActionKind.SET_START_DATE,
+              payload: utilsDate.formatDayValueToString(value) ?? '',
+            });
           }}
+          // minimumDate={utilsDate.formatDateToDayValue(new Date()) ?? undefined}
         />
 
         <CalendarButton
-          value={{ day: 2, month: 4, year: 2023 }}
+          value={utilsDate.formatStringToDayValue('02/04/2023')}
           label={t('Partenza').toString()}
           placeholder={t('Seleziona data di partenza').toString()}
           locale="it"
           onChange={(value) => {
-            dataDispatch({ type: DataActionKind.SET_END_DATE, payload: formatDate(value) ?? '' });
+            dataDispatch({ type: DataActionKind.SET_END_DATE, payload: utilsDate.formatDayValueToString(value) ?? '' });
           }}
+          // minimumDate={utilsDate.formatDateToDayValue(new Date()) ?? undefined}
         />
 
         <Input
@@ -161,7 +186,7 @@ const SearchSidebar = () => {
           </Button>
         </CustomTransition>
       </div>
-    </div>
+    </WrapperCard>
   );
 };
 

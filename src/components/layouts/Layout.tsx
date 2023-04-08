@@ -16,7 +16,7 @@ const Layout = () => {
         </div>
       </nav>
 
-      <main className="container">
+      <main className="">
         <Outlet />
       </main>
     </div>
