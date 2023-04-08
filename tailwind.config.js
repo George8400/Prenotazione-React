@@ -44,6 +44,10 @@ export default withAnimations({
 
       boxShadow: {
         "full": "0 8px 30px rgb(0,0,0,0.12);",
+      },
+
+      maxWidth: {
+        "search-sidebar": "22rem",
       }
 
     },

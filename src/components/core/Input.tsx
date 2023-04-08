@@ -10,11 +10,12 @@ interface InputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<H
     } & React.RefAttributes<SVGSVGElement>
   >;
   label?: string;
+  classNameWrapper?: string;
 }
 
-const Input = ({ Icon, label, ...props }: InputProps) => {
+const Input = ({ Icon, label, classNameWrapper = '', ...props }: InputProps) => {
   return (
-    <div className="w-full">
+    <div className={'w-full ' + classNameWrapper}>
       <label
         className={clsx('block text-xs font-normal text-gray-700 mb-2', {
           hidden: !label,
