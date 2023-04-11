@@ -1,10 +1,9 @@
 import { DayValue } from '@hassanmojab/react-modern-calendar-datepicker';
-import moment from 'moment';
 
 const formatDayValueToString = (date: DayValue) => {
   if (!date) return null;
 
-  return date.day + '-' + date.month + '-' + date.year;
+  return date.day + '/' + date.month + '/' + date.year;
 };
 
 const formatDateToDayValue = (date: Date) => {

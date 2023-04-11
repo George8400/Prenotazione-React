@@ -24,36 +24,39 @@ const CategoryRateCard = ({
 }: CategoryRateCardProps) => {
   return (
     <WrapperCard className="!p-5">
-      <div className="flex justify-between items-end">
+      <div className="flex items-end justify-between">
         <h2 className="text-xl font-bold lg:text-2xl">{t('La tua prenotazione')}</h2>
-        {onEdit ? <EditButton onClick={() => onEdit()} /> : null}
+        {onEdit ? <EditButton className="hidden lg:flex" onClick={() => onEdit()} /> : null}
       </div>
 
-      <div className={clsx('lg:gap-3 lg:flex mt-5 justify-between items-end')}>
+      <div className="mt-5 items-end justify-between lg:flex lg:gap-3">
         <div className="flex gap-3">
           <img
-            className=" object-cover lg:w-28 lg:h-28 lg:rounded"
+            className={clsx('h-20 w-20 rounded object-cover', 'lg:h-28 lg:w-28')}
             src="https://generatorfun.com/code/uploads/Random-Hotel-image-10.jpg"
             alt=""
           />
 
-          <div className="p-3 lg:p-0 flex flex-col justify-between">
+          <div className="flex flex-col justify-between lg:p-0">
             <div className="flex flex-col">
               <h2 className="text-xl font-bold lg:text-2xl">{typeRoomName}</h2>
 
               <div className="flex">
                 <span className="text-sm font-semibold text-primary-500">{rateName}</span>
-                <InformationCircleIcon className="w-4 h-4 text-dark ml-1" />
+                <InformationCircleIcon className="ml-1 h-4 w-4 text-dark" />
               </div>
             </div>
 
-            <span className="text-sm text-dark mt-auto block">{rangeDate}</span>
+            <span className="mt-auto block text-sm text-dark">{rangeDate}</span>
           </div>
         </div>
 
-        <div className="flex flex-col text-right">
-          <span className="text-dark text-2xl font-bold">{price}</span>
-          <span className="text-dark text-xs text-right">{peopleString}</span>
+        <div className="mt-2 flex items-end justify-between lg:mt-0">
+          <div className="flex flex-col lg:justify-end lg:text-right">
+            <span className="text-2xl font-bold text-dark">{price}</span>
+            <span className="text-xs text-dark">{peopleString}</span>
+          </div>
+          {onEdit ? <EditButton className="flex lg:hidden" onClick={() => onEdit()} /> : null}
         </div>
       </div>
     </WrapperCard>

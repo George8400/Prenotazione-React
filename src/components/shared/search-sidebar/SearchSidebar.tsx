@@ -94,13 +94,13 @@ const SearchSidebar = ({ onChangeEditing, onSearch, className }: SearchSidebarPr
 
   return (
     <WrapperCard ref={ref} className={className}>
-      <div className="flex justify-between items-center">
-        <h3 className="font-bold text-xl">{t('La tua ricerca')}</h3>
+      <div className="flex items-center justify-between">
+        <h3 className="text-xl font-bold">{t('La tua ricerca')}</h3>
         <button className="text-sm text-dark" onClick={() => handleChangeEditing(!isEditing)}>
           <CustomTransition show={isEditing}>
             <span className="flex items-center gap-1.5 ">
               {t('Chiudi')}
-              <XMarkIcon className="text-primary-500 w-4 h-4 mb-0.5" />
+              <XMarkIcon className="mb-0.5 h-4 w-4 text-primary-500" />
             </span>
           </CustomTransition>
 
@@ -113,7 +113,7 @@ const SearchSidebar = ({ onChangeEditing, onSearch, className }: SearchSidebarPr
           e.preventDefault();
         }}
       >
-        <div className="w-full mt-4 flex flex-col gap-6 justify-center">
+        <div className="mt-4 flex w-full flex-col justify-center gap-6">
           <CalendarButton
             value={utilsDate.formatStringToDayValue(dataState.startDate)}
             label={t('Arrivo').toString()}

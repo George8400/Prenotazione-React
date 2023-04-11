@@ -26,9 +26,9 @@ const Reservation = () => {
   }, []);
 
   return (
-    <div className="py-10 relative min-h-full">
-      <div className="container flex flex-col md:flex-row gap-6">
-        <div className="flex flex-col gap-6 w-full sm:max-w-xs xl:max-w-search-sidebar">
+    <div className="relative min-h-full py-10">
+      <div className="container flex flex-col gap-6 md:flex-row">
+        <div className="flex w-full flex-col gap-6 md:max-w-xs xl:max-w-search-sidebar">
           {/* Sidebar */}
           <div className={clsx('w-full')}>
             {/* SEGNAPOSTO */}
@@ -39,7 +39,7 @@ const Reservation = () => {
             />
 
             <div
-              className={clsx('transition-all duration-200 z-10 inset-0', {
+              className={clsx('inset-0 z-10 transition-all duration-200', {
                 relative: !isEditing,
                 'absolute bg-dark/60 ': isEditing,
               })}
@@ -53,7 +53,7 @@ const Reservation = () => {
                 <SearchSidebar
                   onSearch={onSearch}
                   onChangeEditing={onChangeEditing}
-                  className="sm:max-w-xs xl:max-w-search-sidebar"
+                  className="md:max-w-xs xl:max-w-search-sidebar"
                 />
               </div>
             </div>
@@ -64,60 +64,60 @@ const Reservation = () => {
             <h2 className="text-xl font-bold">{t('Prenota sul nostro sito')}</h2>
 
             {new Array(3).fill(1).map((_, index) => (
-              <p key={index} className="flex items-start text-xs mt-5 font-open">
-                <CheckCircleIcon className="h-5 w-5 text-primary-500 mr-2 mb-0.5" />
+              <p key={index} className="mt-5 flex items-start font-open text-xs">
+                <CheckCircleIcon className="mb-0.5 mr-2 h-5 w-5 text-primary-500" />
                 {t('Prenota direttamente sul nostro sito')}
               </p>
             ))}
           </WrapperCard>
         </div>
 
-        <div className="flex flex-col gap-6 w-full">
+        <div className="flex w-full flex-col gap-6">
           {/* Prenota sul nostro sito */}
-          <WrapperCard className={clsx('', 'md:hidden')}>
+          <WrapperCard className={clsx('order-2', 'md:hidden')}>
             <h2 className="text-xl font-bold">{t('Prenota sul nostro sito')}</h2>
 
             {new Array(3).fill(1).map((_, index) => (
-              <p key={index} className="flex items-start text-xs mt-5 font-open">
-                <CheckCircleIcon className="h-5 w-5 text-primary-500 mr-2 mb-0.5" />
+              <p key={index} className="mt-5 flex items-start font-open text-xs">
+                <CheckCircleIcon className="mb-0.5 mr-2 h-5 w-5 text-primary-500" />
                 {t('Prenota direttamente sul nostro sito')}
               </p>
             ))}
           </WrapperCard>
 
           {/* Serve aiuto */}
-          <WrapperCard className={clsx('h-fit', 'md:order-1')}>
+          <WrapperCard className={clsx('order-3 h-fit', 'md:order-1')}>
             <h2 className="text-xl font-bold">{t('Serve aiuto?')}</h2>
 
-            <p className="flex items-start text-xs mt-5 md:mt-1.5 font-open">
+            <p className="mt-5 flex items-start font-open text-xs md:mt-1.5">
               {t(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ',
               )}
             </p>
 
-            <div className="mt-5 md:mt-3.5 flex items-center gap-4">
+            <div className="mt-5 flex flex-wrap items-center gap-4 md:mt-3.5">
               <a
                 href="tel:+39 0981 948072"
-                className="shadow-full whitespace-nowrap rounded-full text-xs inline-flex items-center pr-4"
+                className="inline-flex items-center whitespace-nowrap rounded-full pr-4 text-xs shadow-full"
               >
-                <PhoneIcon className="h-7 w-7 text-white rounded-full p-2 bg-primary-500 mr-2" />
+                <PhoneIcon className="mr-2 h-7 w-7 rounded-full bg-primary-500 p-2 text-white" />
                 +39 0981 948072
               </a>
 
               <a
                 href="mailto:info@famigliabarbieri.net"
-                className="shadow-full whitespace-nowrap rounded-full text-xs inline-flex items-center pr-4"
+                className="inline-flex items-center whitespace-nowrap rounded-full pr-4 text-xs shadow-full"
               >
-                <EnvelopeIcon className="h-7 w-7 text-white rounded-full p-2 bg-primary-500 mr-2" />
+                <EnvelopeIcon className="mr-2 h-7 w-7 rounded-full bg-primary-500 p-2 text-white" />
                 info@famigliabarbieri.net
               </a>
             </div>
           </WrapperCard>
 
           {outlet || (
-            <div className="flex w-full items-center flex-col justify-center h-80 md:order-2">
-              <Lottie animationData={searchAnimation} className="w-20 h-20" loop />
-              <span className="text-sm max-w-[150px] text-center text-stone-500">
+            <div className="order-1 flex h-80 w-full flex-col items-center justify-center md:order-2">
+              <Lottie animationData={searchAnimation} className="h-32 w-32" loop />
+              <span className="max-w-[150px] text-center text-sm text-stone-500">
                 {t('Cerca la soluzione ideale per te!')}
               </span>
             </div>

@@ -4,11 +4,12 @@ import React, { FC, Fragment } from 'react';
 interface CustomPopoverProps {
   TriggerButton: React.ReactNode;
   children: React.ReactNode;
+  classNameWrapper?: string;
 }
 
-const CustomPopover: FC<CustomPopoverProps> = ({ TriggerButton, children }) => {
+const CustomPopover: FC<CustomPopoverProps> = ({ TriggerButton, children, classNameWrapper = '' }) => {
   return (
-    <Popover className="relative w-full">
+    <Popover className={'relative w-full ' + classNameWrapper}>
       <Popover.Button className={'w-full cursor-pointer rounded-md outline-primary-500'}>
         {TriggerButton}
       </Popover.Button>
@@ -21,7 +22,7 @@ const CustomPopover: FC<CustomPopoverProps> = ({ TriggerButton, children }) => {
         leaveFrom="transform scale-500 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-        <Popover.Panel className="absolute !z-[1000] animate-zoomInDown animate-duration-150 w-full top-12 inset-x-0">
+        <Popover.Panel className="absolute inset-x-0 top-12 !z-[1000] w-full animate-fadeIn animate-duration-150">
           {children}
         </Popover.Panel>
       </Transition>

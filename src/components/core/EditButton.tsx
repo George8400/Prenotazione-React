@@ -5,16 +5,17 @@ import CustomTransition from './CustomTransition';
 
 interface EditButtonProps {
   show?: boolean;
+  className?: string;
   onClick?: () => void;
 }
 
-const EditButton = ({ show = true, onClick }: EditButtonProps) => {
+const EditButton = ({ show = true, className = '', onClick }: EditButtonProps) => {
   return useMemo(
     () => (
       <CustomTransition show={show}>
-        <span role="button" className="flex items-center gap-1.5 text-sm" onClick={onClick}>
+        <span role="button" className={'flex items-center gap-1.5 text-xs md:text-sm ' + className} onClick={onClick}>
           {t('Modifica')}
-          <PencilSquareIcon className="text-primary-500 w-3.5 h-3.5 mb-0.5" />
+          <PencilSquareIcon className="mb-0.5 h-3 w-3 text-primary-500 md:h-3.5 md:w-3.5" />
         </span>
       </CustomTransition>
     ),

@@ -86,10 +86,10 @@ const Checkout = () => {
             e.preventDefault();
           }}
         >
-          <div className="grid grid-cols-6 gap-4 mt-4">
+          <div className="mt-4 grid grid-cols-6 gap-4">
             <Input
               placeholder={t('Nome').toString() + '*'}
-              classNameWrapper="col-span-3 md:col-span-3 2xl:col-span-2"
+              classNameWrapper="col-span-6 lg:col-span-3 2xl:col-span-2"
               name="name"
               type="text"
               required
@@ -99,7 +99,7 @@ const Checkout = () => {
 
             <Input
               placeholder={t('Cognome').toString() + '*'}
-              classNameWrapper="col-span-3 md:col-span-3 2xl:col-span-2"
+              classNameWrapper="col-span-6 lg:col-span-3 2xl:col-span-2"
               name="surname"
               type="text"
               required
@@ -109,7 +109,7 @@ const Checkout = () => {
 
             <Input
               placeholder={t('Email').toString() + '*'}
-              classNameWrapper="col-span-3 md:col-span-3 2xl:col-span-2"
+              classNameWrapper="col-span-6 lg:col-span-3 2xl:col-span-2"
               name="email"
               type="email"
               required
@@ -119,7 +119,7 @@ const Checkout = () => {
 
             <Input
               placeholder={t('Conferma email').toString() + '*'}
-              classNameWrapper="col-span-3 md:col-span-3 2xl:col-span-2"
+              classNameWrapper="col-span-6 lg:col-span-3 2xl:col-span-2"
               name="confirmEmail"
               type="email"
               required
@@ -129,7 +129,7 @@ const Checkout = () => {
 
             <Input
               placeholder={t('Telefono').toString() + '*'}
-              classNameWrapper="col-span-3 md:col-span-3 2xl:col-span-2"
+              classNameWrapper="col-span-6 lg:col-span-3 2xl:col-span-2"
               name="phone"
               type="tel"
               required
@@ -139,29 +139,29 @@ const Checkout = () => {
           </div>
 
           {/* Checkbox */}
-          <div className="mt-8 px-1 space-y-2">
-            <div className="flex items-start mr-4 ">
+          <div className="mt-8 space-y-2 px-1">
+            <div className="mr-4 flex items-start ">
               <input
                 id="primary-checkbox"
                 type="checkbox"
                 value=""
-                className="w-5 h-5 text-primary-600 bg-gray-100 border-gray-300 rounded-md "
+                className="h-5 w-5 rounded-md border-gray-300 bg-gray-100 text-primary-600 "
               />
-              <label htmlFor="primary-checkbox" className="ml-2 text-xs font-open text-gray-900 dark:text-gray-300">
+              <label htmlFor="primary-checkbox" className="ml-2 font-open text-xs text-dark">
                 {t(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 )}
               </label>
             </div>
 
-            <div className="flex items-start mr-4 ">
+            <div className="mr-4 flex items-start ">
               <input
                 id="secondary-checkbox"
                 type="checkbox"
                 value=""
-                className="w-5 h-5 text-primary-600 bg-gray-100 border-gray-300 rounded-md "
+                className="h-5 w-5 rounded-md border-gray-300 bg-gray-100 text-primary-600 "
               />
-              <label htmlFor="secondary-checkbox" className="ml-2 text-xs font-open text-gray-900 dark:text-gray-300">
+              <label htmlFor="secondary-checkbox" className="ml-2 font-open text-xs text-dark">
                 {t(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 )}
@@ -169,10 +169,10 @@ const Checkout = () => {
             </div>
           </div>
 
-          <div className="flex mt-8 justify-end gap-4">
-            <img src={paymentsImage} alt="" />
+          <div className="mt-8 flex flex-col justify-end gap-4 sm:flex-row">
+            <img src={paymentsImage} alt="" className="max-w-[200px]" />
 
-            <Button className="w-fit" itemType="submit" onClick={() => handleCheckout()}>
+            <Button className="sm:w-fit" itemType="submit" onClick={() => handleCheckout()}>
               <span className="text-sm font-bold">{t('Procedi al pagamento')}</span>
             </Button>
           </div>
