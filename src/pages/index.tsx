@@ -9,6 +9,7 @@ import SearchSidebar, { SearchSidebarDataStateType } from '../components/shared/
 import searchAnimation from '../assets/animations/search-animation.json';
 import { fetcher } from '../api/fetcher';
 import { ApiRoutes } from '../api/routes/apiRoutes';
+import { VerificaDisponibilitaType } from '../models/apiData/CategoryRate';
 
 const Reservation = () => {
   const { t, i18n } = useTranslation();
@@ -23,7 +24,7 @@ const Reservation = () => {
   }, []);
 
   const onSearch = useCallback(async (data: SearchSidebarDataStateType) => {
-    const res = await fetcher(ApiRoutes.VERIFICA_DISPONIBILITA_API, {
+    const res: VerificaDisponibilitaType = await fetcher(ApiRoutes.VERIFICA_DISPONIBILITA_API, {
       method: 'POST',
       body: JSON.stringify({
         dataDiArrivo: data.startDate,
@@ -35,9 +36,13 @@ const Reservation = () => {
       }),
     });
 
-    console.log('res', res);
-
-    // navigate('/risultati');
+    if (res) {
+      navigate('/risultati', {
+        state: {
+          res,
+        },
+      });
+    }
   }, []);
 
   return (

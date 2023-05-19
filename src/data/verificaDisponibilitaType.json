@@ -1,0 +1,64 @@
+{
+  "coupon": {
+    "valoreCoupon": "0",
+    "message": "Coupon non inserito."
+  },
+  "listaCategorie": [
+    {
+      "idCategoria": "1",
+      "categoria": "Doppia uso singolo",
+      "descrizione": "descrizione",
+      "quantitaDisponibile": "9",
+      "listaTariffaPrezzi": [
+        {
+          "idTariffa": "1",
+          "tariffa": "Prima colazione",
+          "prezzo": "440.0"
+        },
+        {
+          "idTariffa": "2",
+          "tariffa": "Mezza Pensione",
+          "prezzo": "440.0"
+        },
+        {
+          "idTariffa": "3",
+          "tariffa": "Pensione Completa",
+          "prezzo": "440.0"
+        },
+        {
+          "idTariffa": "4",
+          "tariffa": "Solo B&B",
+          "prezzo": "440.0"
+        }
+      ]
+    },
+    {
+      "idCategoria": "5",
+      "categoria": "Doppia uso singolo",
+      "descrizione": "descrizione",
+      "quantitaDisponibile": "9",
+      "listaTariffaPrezzi": [
+        {
+          "idTariffa": "1",
+          "tariffa": "Prima colazione",
+          "prezzo": "560.0"
+        },
+        {
+          "idTariffa": "2",
+          "tariffa": "Mezza Pensione",
+          "prezzo": "560.0"
+        },
+        {
+          "idTariffa": "3",
+          "tariffa": "Pensione Completa",
+          "prezzo": "560.0"
+        },
+        {
+          "idTariffa": "4",
+          "tariffa": "Solo B&B",
+          "prezzo": "560.0"
+        }
+      ]
+    }
+  ]
+}

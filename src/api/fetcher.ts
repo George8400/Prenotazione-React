@@ -3,7 +3,14 @@ export async function fetcher<JSON = any>(url: RequestInfo | URL, options?: Requ
     throw new Error('URL is not defined');
   }
 
-  const fullUrl = new URL(url.toString());
+  if (options?.method === 'POST') {
+    options.headers = {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    };
+  }
+
+  const fullUrl = url.toString();
   // console.log('🚀 ~ file: fetcher.ts:10 ~ fullUrl:', fullUrl);
 
   let reponse: Response;
