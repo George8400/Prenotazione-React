@@ -25,7 +25,7 @@ enum DataActionKind {
   SET_END_DATE = 'SET_END_DATE',
   SET_NUM_ADULTS = 'SET_NUM_ADULTS',
   SET_NUM_CHILDREN = 'SET_NUM_CHILDREN',
-  SET_NUM_BABIES = 'SET_NUM_BABIES',
+  SET_NUM_ROOMS = 'SET_NUM_ROOMS',
   SET_COUPON = 'SET_COUPON',
 }
 
@@ -34,7 +34,7 @@ type DataStateType = {
   endDate: string;
   numAdults: number;
   numChildren: number;
-  numBabies: number;
+  numRooms: number;
   coupon: string;
 };
 
@@ -43,7 +43,7 @@ const initialDataState: DataStateType = {
   endDate: moment(new Date()).add(1, 'week').format('DD/MM/YYYY'),
   numAdults: 0,
   numChildren: 0,
-  numBabies: 0,
+  numRooms: 0,
   coupon: '',
 };
 
@@ -59,8 +59,8 @@ const dataReducer = (state: DataStateType, action: DataActionReducer<string | nu
       return { ...state, numAdults: payload as number };
     case DataActionKind.SET_NUM_CHILDREN:
       return { ...state, numChildren: payload as number };
-    case DataActionKind.SET_NUM_BABIES:
-      return { ...state, numBabies: payload as number };
+    case DataActionKind.SET_NUM_ROOMS:
+      return { ...state, numRooms: payload as number };
     case DataActionKind.SET_COUPON:
       return { ...state, coupon: payload as string };
 
@@ -156,19 +156,6 @@ const SearchSidebar = ({ onChangeEditing, onSearch, className }: SearchSidebarPr
 
           <CustomTransition show={isEditing}>
             <Input
-              label={t('Neonati').toString()}
-              placeholder={t('0').toString()}
-              Icon={ChevronUpDownIcon}
-              type="number"
-              onChange={(e) => {
-                dataDispatch({ type: DataActionKind.SET_NUM_BABIES, payload: e.target.value });
-              }}
-              defaultValue={dataState.numBabies}
-            />
-          </CustomTransition>
-
-          <CustomTransition show={isEditing}>
-            <Input
               label={t('Bambini').toString()}
               placeholder={t('0').toString()}
               Icon={ChevronUpDownIcon}
@@ -177,6 +164,19 @@ const SearchSidebar = ({ onChangeEditing, onSearch, className }: SearchSidebarPr
                 dataDispatch({ type: DataActionKind.SET_NUM_CHILDREN, payload: e.target.value });
               }}
               defaultValue={dataState.numChildren}
+            />
+          </CustomTransition>
+
+          <CustomTransition show={isEditing}>
+            <Input
+              label={t('N° Camere').toString()}
+              placeholder={t('0').toString()}
+              Icon={ChevronUpDownIcon}
+              type="number"
+              onChange={(e) => {
+                dataDispatch({ type: DataActionKind.SET_NUM_ROOMS, payload: e.target.value });
+              }}
+              defaultValue={dataState.numRooms}
             />
           </CustomTransition>
 
@@ -201,5 +201,7 @@ const SearchSidebar = ({ onChangeEditing, onSearch, className }: SearchSidebarPr
     </WrapperCard>
   );
 };
+
+export type { DataStateType as SearchSidebarDataStateType };
 
 export default SearchSidebar;

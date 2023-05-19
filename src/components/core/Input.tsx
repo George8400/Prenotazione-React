@@ -17,21 +17,21 @@ const Input = ({ Icon, label, classNameWrapper = '', ...props }: InputProps) => 
   return (
     <div className={'w-full ' + classNameWrapper}>
       <label
-        className={clsx('block text-xs font-normal text-gray-700 mb-2', {
+        className={clsx('mb-2 block text-xs font-normal text-gray-700', {
           hidden: !label,
         })}
       >
         {label}
       </label>
       <div
-        className={clsx('relative shadow-full rounded-md overflow-hidden flex items-center w-full', props.className)}
+        className={clsx('relative flex w-full items-center overflow-hidden rounded-md shadow-full', props.className)}
       >
         <input
           {...props}
-          className={clsx('min-w-full rounded-md outline-primary-500 py-3 px-3.5 text-sm', props.className)}
+          className={clsx('min-w-full rounded-md px-3.5 py-3 text-sm outline-primary-500', props.className)}
         />
 
-        {Icon ? <Icon onClick={props.onClick as any} className="absolute right-3.5 w-4 h-4 text-dark" /> : null}
+        {Icon ? <Icon onClick={props.onClick as any} className="absolute right-3.5 h-4 w-4 text-dark" /> : null}
       </div>
     </div>
   );

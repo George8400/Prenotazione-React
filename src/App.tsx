@@ -1,6 +1,5 @@
 import Layout from './components/layouts/Layout';
-import Button from './components/core/Button';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Results from './pages/results/Results';
 import Checkout from './pages/checkout/Checkout';
 import CheckoutSuccess from './pages/checkout-success/CheckoutSuccess';

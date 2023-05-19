@@ -5,8 +5,10 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutlet, useNavigate } from 'react-router-dom';
 import WrapperCard from '../components/core/WrapperCard';
-import SearchSidebar from '../components/shared/search-sidebar/SearchSidebar';
+import SearchSidebar, { SearchSidebarDataStateType } from '../components/shared/search-sidebar/SearchSidebar';
 import searchAnimation from '../assets/animations/search-animation.json';
+import { fetcher } from '../api/fetcher';
+import { ApiRoutes } from '../api/routes/apiRoutes';
 
 const Reservation = () => {
   const { t, i18n } = useTranslation();
@@ -20,9 +22,22 @@ const Reservation = () => {
     setIsEditing(isEditing);
   }, []);
 
-  const onSearch = useCallback((data: any) => {
-    console.log(data);
-    navigate('/risultati');
+  const onSearch = useCallback(async (data: SearchSidebarDataStateType) => {
+    const res = await fetcher(ApiRoutes.VERIFICA_DISPONIBILITA_API, {
+      method: 'POST',
+      body: JSON.stringify({
+        dataDiArrivo: data.startDate,
+        dataDiPartenza: data.endDate,
+        numeroAdulti: data.numAdults,
+        numeroBambini: data.numChildren,
+        numeroCamere: data.numRooms,
+        coupon: data.coupon,
+      }),
+    });
+
+    console.log('res', res);
+
+    // navigate('/risultati');
   }, []);
 
   return (

@@ -1,9 +1,4 @@
-import { CheckCircleIcon, PaperClipIcon, UserCircleIcon, UserIcon } from '@heroicons/react/24/outline';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import CategoryRateCard from '../../components/shared/cards/CategoryRateCard';
-import Input from '../../components/core/Input';
-import Button from '../../components/core/Button';
 import Lottie from 'lottie-react';
 import checkAnimation from '../../assets/animations/check-animation.json';
 import SmartCheckinInput from '../../components/shared/smart-checkin/SmartCheckinInput';
