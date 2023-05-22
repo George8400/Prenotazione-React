@@ -13,11 +13,12 @@ import { utilsDate } from './utils/utils';
 import moment from 'moment';
 import EditButton from '../../core/EditButton';
 import { DataActionReducer } from '../../../models/type';
+import { CheckAvailabilityDataType } from '../../../models/Reservation';
 
 interface SearchSidebarProps {
   className?: string;
   onChangeEditing: (isEditing: boolean) => void;
-  onSearch: (data: DataStateType) => void;
+  onSearch: (data: CheckAvailabilityDataType) => void;
 }
 
 enum DataActionKind {
@@ -29,16 +30,7 @@ enum DataActionKind {
   SET_COUPON = 'SET_COUPON',
 }
 
-type DataStateType = {
-  startDate: string;
-  endDate: string;
-  numAdults: number;
-  numChildren: number;
-  numRooms: number;
-  coupon: string;
-};
-
-const initialDataState: DataStateType = {
+const initialDataState: CheckAvailabilityDataType = {
   startDate: moment(new Date()).format('DD/MM/YYYY'),
   endDate: moment(new Date()).add(1, 'week').format('DD/MM/YYYY'),
   numAdults: 0,
@@ -47,7 +39,7 @@ const initialDataState: DataStateType = {
   coupon: '',
 };
 
-const dataReducer = (state: DataStateType, action: DataActionReducer<string | number>) => {
+const dataReducer = (state: CheckAvailabilityDataType, action: DataActionReducer<string | number>) => {
   const { payload, type } = action;
 
   switch (type) {
@@ -201,7 +193,5 @@ const SearchSidebar = ({ onChangeEditing, onSearch, className }: SearchSidebarPr
     </WrapperCard>
   );
 };
-
-export type { DataStateType as SearchSidebarDataStateType };
 
 export default SearchSidebar;

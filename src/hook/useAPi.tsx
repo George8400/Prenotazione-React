@@ -1,7 +1,6 @@
-import React from 'react';
 import useSWR from 'swr';
 import { ApiRoutes, ApiType } from '../api/routes/apiRoutes';
-import { fetcher } from '../api/fetcher';
+import { fetcher } from '../api/utils/fetcher';
 
 interface ApiProps {
   api: ApiType;

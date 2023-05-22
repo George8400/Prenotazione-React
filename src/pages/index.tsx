@@ -5,11 +5,22 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutlet, useNavigate } from 'react-router-dom';
 import WrapperCard from '../components/core/WrapperCard';
-import SearchSidebar, { SearchSidebarDataStateType } from '../components/shared/search-sidebar/SearchSidebar';
+import SearchSidebar from '../components/shared/search-sidebar/SearchSidebar';
 import searchAnimation from '../assets/animations/search-animation.json';
-import { fetcher } from '../api/fetcher';
+import { fetcher } from '../api/utils/fetcher';
 import { ApiRoutes } from '../api/routes/apiRoutes';
 import { VerificaDisponibilitaType } from '../models/apiData/CategoryRate';
+import { CheckAvailabilityDataType } from '../models/Reservation';
+import useReservation from '../store/hook/useReservation';
+
+/**
+ * Funnel Step:
+ * 1. index.tsx --> Check availability --> /risultati
+ * 2. Block room (internal) --> /checkout
+ * 3. Checkout
+ * 4. Payment
+ * 5. Smart Checkin
+ */
 
 const Reservation = () => {
   const { t, i18n } = useTranslation();
@@ -19,11 +30,14 @@ const Reservation = () => {
 
   const [isEditing, setIsEditing] = useState(false);
 
+  const { updateCheckAvailability } = useReservation();
+
   const onChangeEditing = useCallback((isEditing: boolean) => {
     setIsEditing(isEditing);
   }, []);
 
-  const onSearch = useCallback(async (data: SearchSidebarDataStateType) => {
+  const onSearch = useCallback(async (data: CheckAvailabilityDataType) => {
+    updateCheckAvailability(data);
     const res: VerificaDisponibilitaType = await fetcher(ApiRoutes.VERIFICA_DISPONIBILITA_API, {
       method: 'POST',
       body: JSON.stringify({
