@@ -13,12 +13,14 @@ const persistConfig = {
 };
 
 const checkAvailabilityPersistedReducer = persistReducer(persistConfig, checkAvailabilityReducer);
+const reservationPersistedReducer = persistReducer(persistConfig, reservationReducer);
 
 export const store = configureStore({
   reducer: {
     checkAvailability: checkAvailabilityPersistedReducer,
     blockRooms: blockRoomsReducer,
-    reservation: reservationReducer,
+    // reservation: reservationReducer,
+    reservation: reservationPersistedReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

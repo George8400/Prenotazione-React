@@ -10,6 +10,7 @@ import paymentsImage from '../../assets/images/payments.svg';
 import Button from '../../components/core/Button';
 import { useNavigate } from 'react-router-dom';
 import CategoryRateCard from '../../components/shared/cards/CategoryRateCard';
+import useReservation from '../../store/hook/useReservation';
 
 enum DataActionKind {
   SET_FIRST_NAME = 'SET_FIRST_NAME',
@@ -57,6 +58,8 @@ const dataReducer = (state: DataStateType, action: DataActionReducer<string | nu
 
 const Checkout = () => {
   const [dataState, dataDispatch] = useReducer(dataReducer, initialDataState);
+
+  const {} = useReservation();
 
   const { t } = useTranslation();
 

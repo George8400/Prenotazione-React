@@ -7,20 +7,19 @@ import { useCallback, useEffect, useState } from 'react';
 import { CheckAvailabilityResponseType, ListaCategorie, ListaTariffaPrezzi } from '../../models/apiData/CategoryRate';
 import { ApiRoutes } from '../../api/routes/apiRoutes';
 import { fetcher } from '../../api/utils/fetcher';
-import { CategoryRateDataType, CheckAvailabilityDataType } from '../../models/Reservation';
+import { CategoryRateDataType, CheckAvailabilityDataType, ReservationDataType } from '../../models/Reservation';
 import useReservation from '../../store/hook/useReservation';
-import { useAppSelector } from '../../hook/useRTK';
 import Badge from '../../components/core/Badge';
 
 const Results = () => {
   const [data, setData] = useState<CheckAvailabilityResponseType>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { t } = useTranslation();
+  const { updateCheckAvailability, updateReservation, reservation, checkAvailability } = useReservation();
+  const [localReservation, setLocalReservation] = useState<ReservationDataType>(reservation);
 
   const navigate = useNavigate();
-
-  const { updateCheckAvailability, updateReservation, reservation, checkAvailability } = useReservation();
+  const { t } = useTranslation();
 
   const onSearch = useCallback(async (data: CheckAvailabilityDataType) => {
     updateCheckAvailability(data);
@@ -39,14 +38,14 @@ const Results = () => {
     setData(res);
   }, []);
 
-  const handleSelectCategoryRate = (selected: any) => {
-    console.log(selected);
+  const nextStep = () => {
+    updateReservation(localReservation);
     navigate('/checkout');
   };
 
   const addCategoryRate = useCallback(
     (category: Omit<ListaCategorie, 'listaTariffaPrezzi'>, rate: ListaTariffaPrezzi) => {
-      const { categoryRates } = reservation;
+      const { categoryRates } = localReservation;
 
       let newCategoryRates: CategoryRateDataType[] = [];
       let newCategoryRate: CategoryRateDataType = {
@@ -74,22 +73,16 @@ const Results = () => {
         newCategoryRates = [...categoryRates, newCategoryRate];
       }
 
-      updateReservation({
-        ...reservation,
+      setLocalReservation({
+        ...localReservation,
         categoryRates: newCategoryRates,
       });
     },
-    [checkAvailability, reservation],
+    [localReservation],
   );
 
   useEffect(() => {
     onSearch(checkAvailability);
-
-    return () => {
-      console.log('reset reservation from results');
-      setData(undefined);
-      updateReservation(undefined, 'reset');
-    };
   }, []);
 
   useEffect(() => {
@@ -101,7 +94,9 @@ const Results = () => {
   return (
     <div className="space-y-8 pb-20 md:order-2">
       {data?.listaCategorie.map((categoria, index) => {
-        const categorySelected = reservation.categoryRates.some((item) => item.idCategory === categoria.idCategoria);
+        const categorySelected = localReservation.categoryRates.some(
+          (item) => item.idCategory === categoria.idCategoria,
+        );
 
         return (
           <div
@@ -129,7 +124,7 @@ const Results = () => {
             </div>
             {/* Tariffe */}
             {categoria?.listaTariffaPrezzi?.map((tariffaPrezzi, index) => {
-              const rateSelected = reservation.categoryRates.some((item) => {
+              const rateSelected = localReservation.categoryRates.some((item) => {
                 return item.idRate === tariffaPrezzi.idTariffa && item.idCategory === categoria.idCategoria;
               });
 
@@ -179,15 +174,17 @@ const Results = () => {
         <div className="container flex items-end justify-end">
           <Button
             border="default"
-            disabled={reservation?.categoryRates?.length === 0}
+            disabled={localReservation?.categoryRates?.length === 0}
             itemType="submit"
             size="medium"
             className="w-fit"
-            onClick={handleSelectCategoryRate}
+            onClick={nextStep}
           >
             {t('Prosegui')}
-            {reservation?.categoryRates?.length !== 0 ? (
-              <Badge className="absolute -right-2 -top-1/2 translate-y-1/2">{reservation.categoryRates.length}</Badge>
+            {localReservation?.categoryRates?.length !== 0 ? (
+              <Badge className="absolute -right-2 -top-1/2 translate-y-1/2">
+                {localReservation.categoryRates.length}
+              </Badge>
             ) : null}
           </Button>
         </div>
