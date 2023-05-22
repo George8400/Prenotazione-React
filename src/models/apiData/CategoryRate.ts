@@ -1,6 +1,6 @@
 // Interfaccce definite con open quicktype
 
-export interface VerificaDisponibilitaType {
+export interface CheckAvailabilityResponseType {
   coupon: Coupon;
   listaCategorie: ListaCategorie[];
 }

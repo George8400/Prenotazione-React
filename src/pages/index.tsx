@@ -9,9 +9,10 @@ import SearchSidebar from '../components/shared/search-sidebar/SearchSidebar';
 import searchAnimation from '../assets/animations/search-animation.json';
 import { fetcher } from '../api/utils/fetcher';
 import { ApiRoutes } from '../api/routes/apiRoutes';
-import { VerificaDisponibilitaType } from '../models/apiData/CategoryRate';
+import { CheckAvailabilityResponseType } from '../models/apiData/CategoryRate';
 import { CheckAvailabilityDataType } from '../models/Reservation';
 import useReservation from '../store/hook/useReservation';
+import { useAppSelector } from '../hook/useRTK';
 
 /**
  * Funnel Step:
@@ -30,7 +31,7 @@ const Reservation = () => {
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const { updateCheckAvailability } = useReservation();
+  const { updateCheckAvailability, checkAvailability } = useReservation();
 
   const onChangeEditing = useCallback((isEditing: boolean) => {
     setIsEditing(isEditing);
@@ -69,6 +70,7 @@ const Reservation = () => {
                 <SearchSidebar
                   onSearch={onSearch}
                   onChangeEditing={onChangeEditing}
+                  initialData={checkAvailability}
                   className="md:max-w-xs xl:max-w-search-sidebar"
                 />
               </div>

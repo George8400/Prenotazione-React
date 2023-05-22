@@ -17,6 +17,7 @@ import { CheckAvailabilityDataType } from '../../../models/Reservation';
 
 interface SearchSidebarProps {
   className?: string;
+  initialData?: CheckAvailabilityDataType;
   onChangeEditing: (isEditing: boolean) => void;
   onSearch: (data: CheckAvailabilityDataType) => void;
 }
@@ -61,10 +62,10 @@ const dataReducer = (state: CheckAvailabilityDataType, action: DataActionReducer
   }
 };
 
-const SearchSidebar = ({ onChangeEditing, onSearch, className }: SearchSidebarProps) => {
+const SearchSidebar = ({ onChangeEditing, onSearch, initialData, className }: SearchSidebarProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [height, setHeight] = useState(0);
-  const [dataState, dataDispatch] = useReducer(dataReducer, initialDataState);
+  const [dataState, dataDispatch] = useReducer(dataReducer, initialData ?? initialDataState);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -131,7 +132,11 @@ const SearchSidebar = ({ onChangeEditing, onSearch, className }: SearchSidebarPr
                 payload: utilsDate.formatDayValueToString(value) ?? '',
               });
             }}
-            minimumDate={utilsDate.formatDateToDayValue(new Date()) ?? undefined}
+            minimumDate={
+              utilsDate.formatStringToDayValue(
+                moment(dataState.startDate, 'DD/MM/YYYY').add(1, 'day').format('DD/MM/YYYY'),
+              ) ?? undefined
+            }
           />
 
           <Input

@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import Button from '../../components/core/Button';
 import clsx from 'clsx';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import { VerificaDisponibilitaType } from '../../models/apiData/CategoryRate';
+import { CheckAvailabilityResponseType } from '../../models/apiData/CategoryRate';
 import { ApiRoutes } from '../../api/routes/apiRoutes';
 import { fetcher } from '../../api/utils/fetcher';
 import { CheckAvailabilityDataType } from '../../models/Reservation';
@@ -17,7 +17,7 @@ interface CategoryRateDataType {
 }
 
 const Results = () => {
-  const [data, setData] = useState<VerificaDisponibilitaType>();
+  const [data, setData] = useState<CheckAvailabilityResponseType>();
 
   const { checkAvailability } = useAppSelector((state) => state);
 
@@ -34,7 +34,7 @@ const Results = () => {
 
   const onSearch = useCallback(async (data: CheckAvailabilityDataType) => {
     updateCheckAvailability(data);
-    const res: VerificaDisponibilitaType = await fetcher(ApiRoutes.VERIFICA_DISPONIBILITA_API, {
+    const res: CheckAvailabilityResponseType = await fetcher(ApiRoutes.VERIFICA_DISPONIBILITA_API, {
       method: 'POST',
       body: JSON.stringify({
         dataDiArrivo: data.startDate,

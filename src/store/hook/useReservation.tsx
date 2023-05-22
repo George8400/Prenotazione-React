@@ -1,10 +1,12 @@
-import { useAppDispatch } from '../../hook/useRTK';
+import { useAppDispatch, useAppSelector } from '../../hook/useRTK';
 import { BlockRoomsDataType, CheckAvailabilityDataType, ReservationDataType } from '../../models/Reservation';
 import { setBlockRooms, setBlockRoomsReset } from '../slices/blockRooms';
 import { setCheckAvailability, setCheckAvailabilityReset } from '../slices/checkAvailability';
 import { setReservation, setReservationReset } from '../slices/reservation';
 
 const useReservation = () => {
+  const { blockRooms, checkAvailability, reservation } = useAppSelector((state) => state);
+
   const dispatch = useAppDispatch();
 
   const updateBlockRooms = (data: BlockRoomsDataType, action?: 'reset') => {
@@ -40,7 +42,7 @@ const useReservation = () => {
     dispatch(setReservation(data));
   };
 
-  return { updateBlockRooms, updateCheckAvailability, updateReservation };
+  return { updateBlockRooms, updateCheckAvailability, updateReservation, blockRooms, checkAvailability, reservation };
 };
 
 export default useReservation;
