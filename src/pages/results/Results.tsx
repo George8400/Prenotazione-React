@@ -3,8 +3,13 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import Button from '../../components/core/Button';
 import clsx from 'clsx';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { VerificaDisponibilitaType } from '../../models/apiData/CategoryRate';
+import { ApiRoutes } from '../../api/routes/apiRoutes';
+import { fetcher } from '../../api/utils/fetcher';
+import { CheckAvailabilityDataType } from '../../models/Reservation';
+import useReservation from '../../store/hook/useReservation';
+import { useAppSelector } from '../../hook/useRTK';
 
 interface CategoryRateDataType {
   idCategorie: number[];
@@ -14,23 +19,40 @@ interface CategoryRateDataType {
 const Results = () => {
   const [data, setData] = useState<VerificaDisponibilitaType>();
 
+  const { checkAvailability } = useAppSelector((state) => state);
+
   const { t, i18n } = useTranslation();
 
-  const location = useLocation();
   const navigate = useNavigate();
+
+  const { updateCheckAvailability } = useReservation();
 
   const handleSelect = (selected: any) => {
     console.log(selected);
     navigate('/checkout');
   };
 
-  useEffect(() => {
-    if (location.state) {
-      setData(location.state.res);
-    }
-  }, [location.state]);
+  const onSearch = useCallback(async (data: CheckAvailabilityDataType) => {
+    updateCheckAvailability(data);
+    const res: VerificaDisponibilitaType = await fetcher(ApiRoutes.VERIFICA_DISPONIBILITA_API, {
+      method: 'POST',
+      body: JSON.stringify({
+        dataDiArrivo: data.startDate,
+        dataDiPartenza: data.endDate,
+        numeroAdulti: data.numAdults,
+        numeroBambini: data.numChildren,
+        numeroCamere: data.numRooms,
+        coupon: data.coupon,
+      }),
+    });
 
-  // console.log(data);
+    setData(res);
+  }, []);
+
+  useEffect(() => {
+    onSearch(checkAvailability);
+  }, []);
+
   useEffect(() => {
     if (data) {
       console.log('data', data);
@@ -69,7 +91,7 @@ const Results = () => {
               >
                 <div className="justify-between gap-3 p-3 lg:flex">
                   <div className="w-full">
-                    <div className="flex justify-between ">
+                    <div className="flex justify-between">
                       <h3 className="font-semibold">{tariffaPrezzi.tariffa}</h3>
                       <span className="text-2xl font-bold text-dark">{tariffaPrezzi.prezzo} €</span>
                     </div>
@@ -94,6 +116,12 @@ const Results = () => {
           })}
         </div>
       ))}
+
+      {/* <div className="container sticky bottom-0 flex items-end justify-end bg-white ">
+        <Button border="full" size="small" className="w-fit" onClick={handleSelect}>
+          {t('Seleziona')}
+        </Button>
+      </div> */}
     </div>
   );
 };

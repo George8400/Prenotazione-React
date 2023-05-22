@@ -38,25 +38,7 @@ const Reservation = () => {
 
   const onSearch = useCallback(async (data: CheckAvailabilityDataType) => {
     updateCheckAvailability(data);
-    const res: VerificaDisponibilitaType = await fetcher(ApiRoutes.VERIFICA_DISPONIBILITA_API, {
-      method: 'POST',
-      body: JSON.stringify({
-        dataDiArrivo: data.startDate,
-        dataDiPartenza: data.endDate,
-        numeroAdulti: data.numAdults,
-        numeroBambini: data.numChildren,
-        numeroCamere: data.numRooms,
-        coupon: data.coupon,
-      }),
-    });
-
-    if (res) {
-      navigate('/risultati', {
-        state: {
-          res,
-        },
-      });
-    }
+    navigate('/risultati');
   }, []);
 
   return (

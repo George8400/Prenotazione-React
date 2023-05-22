@@ -5,20 +5,23 @@ import Checkout from './pages/checkout/Checkout';
 import CheckoutSuccess from './pages/checkout-success/CheckoutSuccess';
 import Reservation from './pages';
 import { Provider } from 'react-redux';
-import { store } from './store/store';
+import { persistor, store } from './store/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {
   return (
     <Provider store={store}>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Reservation />}>
-            <Route path="risultati" element={<Results />} />
-            <Route path="checkout" element={<Checkout />} />
-          </Route>
-          <Route path="checkout/success" element={<CheckoutSuccess />} />
-        </Routes>
-      </Layout>
+      <PersistGate persistor={persistor}>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Reservation />}>
+              <Route path="risultati" element={<Results />} />
+              <Route path="checkout" element={<Checkout />} />
+            </Route>
+            <Route path="checkout/success" element={<CheckoutSuccess />} />
+          </Routes>
+        </Layout>
+      </PersistGate>
     </Provider>
   );
 }

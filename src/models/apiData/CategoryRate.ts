@@ -1,3 +1,5 @@
+// Interfaccce definite con open quicktype
+
 export interface VerificaDisponibilitaType {
   coupon: Coupon;
   listaCategorie: ListaCategorie[];
