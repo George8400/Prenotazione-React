@@ -40,7 +40,7 @@ const useReservation = () => {
   };
 
   const updateReservation = (data?: Partial<ReservationDataType>, action?: 'reset') => {
-    console.log('onReservation', data);
+    // console.log('onReservation', data);
 
     if (action === 'reset') {
       dispatch(setReservationReset());

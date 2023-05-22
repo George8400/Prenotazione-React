@@ -5,6 +5,7 @@ import blockRoomsReducer from './slices/blockRooms';
 import reservationReducer from './slices/reservation';
 import persistReducer from 'redux-persist/es/persistReducer';
 import persistStore from 'redux-persist/es/persistStore';
+import thunk from 'redux-thunk';
 
 const persistConfig = {
   key: 'root',
@@ -19,6 +20,10 @@ export const store = configureStore({
     blockRooms: blockRoomsReducer,
     reservation: reservationReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).prepend(thunk),
 });
 
 export const persistor = persistStore(store);
