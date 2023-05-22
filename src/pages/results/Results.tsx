@@ -4,33 +4,23 @@ import Button from '../../components/core/Button';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import { CheckAvailabilityResponseType } from '../../models/apiData/CategoryRate';
+import { CheckAvailabilityResponseType, ListaCategorie, ListaTariffaPrezzi } from '../../models/apiData/CategoryRate';
 import { ApiRoutes } from '../../api/routes/apiRoutes';
 import { fetcher } from '../../api/utils/fetcher';
-import { CheckAvailabilityDataType } from '../../models/Reservation';
+import { CategoryRateDataType, CheckAvailabilityDataType } from '../../models/Reservation';
 import useReservation from '../../store/hook/useReservation';
 import { useAppSelector } from '../../hook/useRTK';
-
-interface CategoryRateDataType {
-  idCategorie: number[];
-  idTariffe: number;
-}
+import Badge from '../../components/core/Badge';
 
 const Results = () => {
   const [data, setData] = useState<CheckAvailabilityResponseType>();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { checkAvailability } = useAppSelector((state) => state);
-
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
-  const { updateCheckAvailability } = useReservation();
-
-  const handleSelect = (selected: any) => {
-    console.log(selected);
-    navigate('/checkout');
-  };
+  const { updateCheckAvailability, updateReservation, reservation, checkAvailability } = useReservation();
 
   const onSearch = useCallback(async (data: CheckAvailabilityDataType) => {
     updateCheckAvailability(data);
@@ -49,8 +39,60 @@ const Results = () => {
     setData(res);
   }, []);
 
+  const handleSelectCategoryRate = (selected: any) => {
+    console.log(selected);
+    navigate('/checkout');
+  };
+
+  const addCategoryRate = useCallback(
+    (category: Omit<ListaCategorie, 'listaTariffaPrezzi'>, rate: ListaTariffaPrezzi) => {
+      const { categoryRates } = reservation;
+
+      let newCategoryRates: CategoryRateDataType[] = [];
+      let newCategoryRate: CategoryRateDataType = {
+        idCategory: category.idCategoria,
+        ageChildren: 9999,
+        amount: 1,
+        numAdults: 1,
+        numChildren: 0,
+        price: rate.prezzo,
+        rate: rate.tariffa,
+        room: 1,
+      };
+
+      if (categoryRates.some((item) => item.idCategory === category.idCategoria)) {
+        newCategoryRates = categoryRates.filter((item) => {
+          return item.idCategory !== category.idCategoria;
+        });
+
+        newCategoryRates.push(newCategoryRate);
+
+        console.log('newCategoryRates', newCategoryRates);
+      } else {
+        newCategoryRates = [...categoryRates, newCategoryRate];
+      }
+
+      console.log('newCategoryRates', newCategoryRates);
+
+      updateReservation({
+        ...reservation,
+        categoryRates: newCategoryRates,
+      });
+
+      console.log('category', category);
+      console.log('rate', rate);
+    },
+    [checkAvailability, reservation],
+  );
+
   useEffect(() => {
     onSearch(checkAvailability);
+
+    return () => {
+      console.log('reset reservation from results');
+      setData(undefined);
+      updateReservation(undefined, 'reset');
+    };
   }, []);
 
   useEffect(() => {
@@ -60,7 +102,7 @@ const Results = () => {
   }, [data]);
 
   return (
-    <div className="space-y-8 md:order-2">
+    <div className="space-y-8 pb-20 md:order-2">
       {data?.listaCategorie.map((categoria, index) => (
         <div
           key={categoria.idCategoria}
@@ -84,7 +126,7 @@ const Results = () => {
           {categoria?.listaTariffaPrezzi?.map((tariffaPrezzi, index) => {
             return (
               <div
-                key={index}
+                key={tariffaPrezzi.idTariffa}
                 className={clsx('flex w-full flex-col gap-2', {
                   'bg-stone-200': index % 2 === 0,
                 })}
@@ -106,7 +148,12 @@ const Results = () => {
                   </div>
 
                   <div className="mt-4 flex justify-end">
-                    <Button border="full" size="small" className="w-fit" onClick={handleSelect}>
+                    <Button
+                      border="full"
+                      size="small"
+                      className="w-fit"
+                      onClick={() => addCategoryRate(categoria, tariffaPrezzi)}
+                    >
                       {t('Seleziona')}
                     </Button>
                   </div>
@@ -117,11 +164,14 @@ const Results = () => {
         </div>
       ))}
 
-      {/* <div className="container sticky bottom-0 flex items-end justify-end bg-white ">
-        <Button border="full" size="small" className="w-fit" onClick={handleSelect}>
-          {t('Seleziona')}
-        </Button>
-      </div> */}
+      <div className="fixed inset-x-0 bottom-0 border-t bg-white/60 py-5 backdrop-blur-md">
+        <div className="container flex items-end justify-end">
+          <Button border="default" itemType="submit" size="medium" className="w-fit" onClick={handleSelectCategoryRate}>
+            {t('Prosegui')}
+            {<Badge className="absolute -right-2 -top-1/2 translate-y-1/2">{reservation.categoryRates.length}</Badge>}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

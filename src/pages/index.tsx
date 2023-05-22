@@ -1,7 +1,7 @@
 import { CheckCircleIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import Lottie from 'lottie-react';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutlet, useNavigate } from 'react-router-dom';
 import WrapperCard from '../components/core/WrapperCard';
@@ -40,6 +40,12 @@ const Reservation = () => {
   const onSearch = useCallback(async (data: CheckAvailabilityDataType) => {
     updateCheckAvailability(data);
     navigate('/risultati');
+  }, []);
+
+  useEffect(() => {
+    if (!checkAvailability.startDate || !checkAvailability.endDate) {
+      navigate('/');
+    }
   }, []);
 
   return (

@@ -34,11 +34,11 @@ export type ReservationDataType = {
 
 export type CategoryRateDataType = {
   idCategory: string;
-  rate: number;
+  rate: string;
   room: number;
   numAdults: number;
   numChildren: number;
   ageChildren: number; // media
-  price: number;
+  price: string;
   amount: number;
 };
