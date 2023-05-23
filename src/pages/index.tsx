@@ -137,9 +137,8 @@ const Reservation = () => {
             <h2 className="text-xl font-bold">{t('Serve aiuto?')}</h2>
 
             <p className="mt-5 flex items-start font-open text-xs md:mt-1.5">
-              {t(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ',
-              )}
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-4 md:mt-3.5">

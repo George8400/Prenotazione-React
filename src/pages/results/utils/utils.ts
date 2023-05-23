@@ -5,6 +5,7 @@ export const checkCategoryRate = (
   categoryRates: CategoryRateDataType[],
   category: Omit<ListaCategorie, 'listaTariffaPrezzi'>,
   rate: ListaTariffaPrezzi,
+  amount: number,
 ) => {
   let newCategoryRates: CategoryRateDataType[] = [];
   let newCategoryRate: CategoryRateDataType = {
@@ -26,7 +27,7 @@ export const checkCategoryRate = (
         if (item.idCategory === newCategoryRate.idCategory) {
           return {
             ...item,
-            amount: item.amount + 1,
+            amount: amount,
           };
         } else {
           return item;

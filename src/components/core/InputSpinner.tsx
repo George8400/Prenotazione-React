@@ -38,8 +38,9 @@ const InputSpinner = ({ onChange, value, className, max = 999999, min = 0 }: Inp
 
       <input
         type="number"
-        className="mx-0 my-auto w-8 border-none bg-transparent p-0 text-center text-sm"
+        className="mx-0 my-auto w-8 border-none bg-transparent p-0 text-center text-sm outline-none"
         value={inputValue}
+        readOnly
       />
 
       <button

@@ -2,18 +2,15 @@ import { useTranslation } from 'react-i18next';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import Button from '../../components/core/Button';
 import clsx from 'clsx';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
-import { CheckAvailabilityResponseType, ListaCategorie, ListaTariffaPrezzi } from '../../models/apiData/CategoryRate';
-import { ApiRoutes } from '../../api/routes/apiRoutes';
-import { fetcher } from '../../api/utils/fetcher';
-import { CategoryRateDataType, CheckAvailabilityDataType, ReservationDataType } from '../../models/Reservation';
+import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
+import { ListaCategorie, ListaTariffaPrezzi } from '../../models/apiData/CategoryRate';
 import useReservation from '../../store/hook/useReservation';
 import Badge from '../../components/core/Badge';
 import { checkCategoryRate } from './utils/utils';
-import Api from '../../api/controller/Api';
 import { useAppSelector } from '../../hook/useRTK';
 import InputSpinner from '../../components/core/InputSpinner';
+import Divider from '../../components/core/Divider';
 
 const Results = () => {
   const { resultsCheckAvailability } = useAppSelector((state) => state);
@@ -31,7 +28,7 @@ const Results = () => {
     (category: Omit<ListaCategorie, 'listaTariffaPrezzi'>, rate: ListaTariffaPrezzi, amount: number) => {
       const { categoryRates } = reservation;
 
-      const newCategoryRates = checkCategoryRate(categoryRates, category, rate);
+      const newCategoryRates = checkCategoryRate(categoryRates, category, rate, amount);
 
       updateReservation({
         ...reservation,
@@ -99,6 +96,8 @@ const Results = () => {
                         <span className="text-right text-xs text-dark">Prezzo per 2 notti - 2 adulti</span>
                       </div>
                     </div>
+
+                    <Divider direction="vertical" className="mx-2 hidden !h-11 !bg-gray-300 lg:block" />
 
                     <div className="mt-4 flex items-center justify-end lg:mt-0 lg:justify-center">
                       <InputSpinner
