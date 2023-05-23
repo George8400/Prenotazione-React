@@ -13,6 +13,7 @@ import Badge from '../../components/core/Badge';
 import { checkCategoryRate } from './utils/utils';
 import Api from '../../api/controller/Api';
 import { useAppSelector } from '../../hook/useRTK';
+import InputSpinner from '../../components/core/InputSpinner';
 
 const Results = () => {
   const { resultsCheckAvailability } = useAppSelector((state) => state);
@@ -23,12 +24,11 @@ const Results = () => {
   const { t } = useTranslation();
 
   const nextStep = () => {
-    updateReservation(reservation);
     navigate('/checkout');
   };
 
   const addCategoryRate = useCallback(
-    (category: Omit<ListaCategorie, 'listaTariffaPrezzi'>, rate: ListaTariffaPrezzi) => {
+    (category: Omit<ListaCategorie, 'listaTariffaPrezzi'>, rate: ListaTariffaPrezzi, amount: number) => {
       const { categoryRates } = reservation;
 
       const newCategoryRates = checkCategoryRate(categoryRates, category, rate);
@@ -40,12 +40,6 @@ const Results = () => {
     },
     [reservation],
   );
-
-  useEffect(() => {
-    if (resultsCheckAvailability) {
-      console.log('data', resultsCheckAvailability);
-    }
-  }, [resultsCheckAvailability, reservation]);
 
   return (
     <div className="space-y-8 pb-20 md:order-2">
@@ -79,7 +73,7 @@ const Results = () => {
             </div>
             {/* Tariffe */}
             {categoria?.listaTariffaPrezzi?.map((tariffaPrezzi, index) => {
-              const rateSelected = reservation.categoryRates.some((item) => {
+              const rateSelected = reservation.categoryRates.find((item) => {
                 return item.idRate === tariffaPrezzi.idTariffa && item.idCategory === categoria.idCategoria;
               });
 
@@ -90,7 +84,7 @@ const Results = () => {
                     'bg-stone-200': index % 2 === 0,
                   })}
                 >
-                  <div className="justify-between gap-3 p-3 lg:flex">
+                  <div className="items-center justify-between gap-3 p-3 lg:flex">
                     <div className="w-full">
                       <div className="flex justify-between">
                         <h3 className="font-semibold">{tariffaPrezzi.tariffa}</h3>
@@ -106,16 +100,12 @@ const Results = () => {
                       </div>
                     </div>
 
-                    <div className="mt-4 flex justify-end">
-                      <Button
-                        variant={categorySelected && rateSelected ? 'primary' : 'outline'}
-                        border="full"
-                        size="small"
-                        className="w-fit"
-                        onClick={() => addCategoryRate(categoria, tariffaPrezzi)}
-                      >
-                        {t('Seleziona')}
-                      </Button>
+                    <div className="mt-4 flex items-center justify-end lg:mt-0 lg:justify-center">
+                      <InputSpinner
+                        value={rateSelected?.amount}
+                        max={3}
+                        onChange={(value) => addCategoryRate(categoria, tariffaPrezzi, value)}
+                      />
                     </div>
                   </div>
                 </div>
