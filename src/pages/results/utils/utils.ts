@@ -11,7 +11,7 @@ export const checkCategoryRate = (
   let newCategoryRate: CategoryRateDataType = {
     idCategory: category.idCategoria,
     ageChildren: 9999,
-    amount: 1,
+    amount: amount,
     numAdults: 1,
     numChildren: 0,
     price: rate.prezzo,
@@ -19,12 +19,18 @@ export const checkCategoryRate = (
     room: 1,
   };
 
-  if (categoryRates.some((item) => item.idCategory === newCategoryRate.idCategory)) {
-    let precIdRate = categoryRates.find((item) => item.idCategory === newCategoryRate.idCategory)?.idRate;
+  // se la categoria con la relativa tariffa è già presente, aggiorno l'amount
+  const categoryRateIndex = categoryRates.findIndex(
+    (item) => item.idCategory === newCategoryRate.idCategory && item.idRate === newCategoryRate.idRate,
+  );
 
-    if (precIdRate === newCategoryRate.idRate) {
-      newCategoryRates = categoryRates.map((item) => {
-        if (item.idCategory === newCategoryRate.idCategory) {
+  if (categoryRateIndex !== -1) {
+    // se l'amount è 0, rimuovo la categoria con la relativa tariffa
+    if (amount === 0) {
+      newCategoryRates = categoryRates.filter((item, index) => categoryRateIndex !== index);
+    } else {
+      newCategoryRates = categoryRates.map((item, index) => {
+        if (categoryRateIndex === index) {
           return {
             ...item,
             amount: amount,
@@ -33,8 +39,6 @@ export const checkCategoryRate = (
           return item;
         }
       });
-    } else {
-      newCategoryRates = [...categoryRates, newCategoryRate];
     }
   } else {
     newCategoryRates = [...categoryRates, newCategoryRate];

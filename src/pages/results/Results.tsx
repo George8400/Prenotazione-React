@@ -3,7 +3,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import Button from '../../components/core/Button';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { ListaCategorie, ListaTariffaPrezzi } from '../../models/apiData/CategoryRate';
 import useReservation from '../../store/hook/useReservation';
 import Badge from '../../components/core/Badge';
@@ -13,16 +13,14 @@ import InputSpinner from '../../components/core/InputSpinner';
 import Divider from '../../components/core/Divider';
 
 const Results = () => {
+  const [enabledNextStep, setEnabledNextStep] = useState(false);
+  const [numRoomsAdded, setNumRoomsAdded] = useState(0);
   const { resultsCheckAvailability } = useAppSelector((state) => state);
 
-  const { updateReservation, reservation } = useReservation();
+  const { updateReservation, reservation, checkAvailability } = useReservation();
 
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const nextStep = () => {
-    navigate('/checkout');
-  };
 
   const addCategoryRate = useCallback(
     (category: Omit<ListaCategorie, 'listaTariffaPrezzi'>, rate: ListaTariffaPrezzi, amount: number) => {
@@ -37,6 +35,10 @@ const Results = () => {
     },
     [reservation],
   );
+
+  const nextStep = () => {
+    navigate('/checkout');
+  };
 
   return (
     <div className="space-y-8 pb-20 md:order-2">
@@ -102,8 +104,9 @@ const Results = () => {
                     <div className="mt-4 flex items-center justify-end lg:mt-0 lg:justify-center">
                       <InputSpinner
                         value={rateSelected?.amount}
-                        max={3}
+                        max={checkAvailability.numRooms - numRoomsAdded}
                         onChange={(value) => addCategoryRate(categoria, tariffaPrezzi, value)}
+                        disabledIncrement={enabledNextStep}
                       />
                     </div>
                   </div>
@@ -118,7 +121,7 @@ const Results = () => {
         <div className="container flex items-end justify-end">
           <Button
             border="default"
-            disabled={reservation?.categoryRates?.length === 0}
+            disabled={!enabledNextStep}
             itemType="submit"
             size="medium"
             className="w-fit"

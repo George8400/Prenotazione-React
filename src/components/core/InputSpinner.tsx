@@ -3,14 +3,43 @@ import React from 'react';
 
 interface InputSpinnerProps {
   value?: number;
-  onChange: (value: number) => void;
   min?: number;
   max?: number;
   className?: string;
+  disabledIncrement?: boolean;
+  disabledDecrement?: boolean;
+  onChange: (value: number) => void;
 }
 
-const InputSpinner = ({ onChange, value, className, max = 999999, min = 0 }: InputSpinnerProps) => {
+const InputSpinner = ({
+  onChange,
+  value,
+  className,
+  max = 999999,
+  disabledDecrement,
+  disabledIncrement,
+  min = 0,
+}: InputSpinnerProps) => {
   const [inputValue, setInputValue] = React.useState(value || 0);
+
+  const [disabledIncrementValue, setDisabledIncrementValue] = React.useState(false);
+  const [disabledDecrementValue, setDisabledDecrementValue] = React.useState(false);
+
+  React.useEffect(() => {
+    if (inputValue === max) {
+      setDisabledIncrementValue(true);
+    } else {
+      setDisabledIncrementValue(false);
+    }
+  }, [inputValue, max]);
+
+  React.useEffect(() => {
+    if (inputValue === min) {
+      setDisabledDecrementValue(true);
+    } else {
+      setDisabledDecrementValue(false);
+    }
+  }, [inputValue, min]);
 
   const incrementValue = () => {
     if (inputValue < max) {
@@ -30,7 +59,8 @@ const InputSpinner = ({ onChange, value, className, max = 999999, min = 0 }: Inp
     <div className="flex items-start justify-between">
       <button
         type="button"
-        className={`h-8 w-8 rounded-full bg-stone-300 p-1 text-center hover:bg-stone-400 active:bg-stone-500 `}
+        disabled={disabledDecrementValue || disabledDecrement}
+        className={`h-8 w-8 rounded-full bg-stone-300 p-1 text-center hover:enabled:bg-stone-400 active:enabled:bg-stone-500 disabled:cursor-not-allowed disabled:opacity-50 `}
         onClick={decrementValue}
       >
         {/* <MinusIcon className="h-full w-full text-gray-800" aria-hidden="true" /> */}-
@@ -45,7 +75,8 @@ const InputSpinner = ({ onChange, value, className, max = 999999, min = 0 }: Inp
 
       <button
         type="button"
-        className={`h-8 w-8 rounded-full bg-stone-300 p-1 text-center hover:bg-stone-400 active:bg-stone-500 `}
+        disabled={disabledIncrementValue || disabledIncrement}
+        className={`h-8 w-8 rounded-full bg-stone-300 p-1 text-center hover:enabled:bg-stone-400 active:enabled:bg-stone-500 disabled:cursor-not-allowed disabled:opacity-50`}
         onClick={incrementValue}
       >
         {/* <PlusIcon className="h-full w-full text-gray-800" aria-hidden="true" /> */}+
