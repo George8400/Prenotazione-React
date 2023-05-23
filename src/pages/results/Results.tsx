@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import Button from '../../components/core/Button';
 import clsx from 'clsx';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { CheckAvailabilityResponseType, ListaCategorie, ListaTariffaPrezzi } from '../../models/apiData/CategoryRate';
 import { ApiRoutes } from '../../api/routes/apiRoutes';
@@ -10,93 +10,47 @@ import { fetcher } from '../../api/utils/fetcher';
 import { CategoryRateDataType, CheckAvailabilityDataType, ReservationDataType } from '../../models/Reservation';
 import useReservation from '../../store/hook/useReservation';
 import Badge from '../../components/core/Badge';
+import { checkCategoryRate } from './utils/utils';
+import Api from '../../api/controller/Api';
+import { useAppSelector } from '../../hook/useRTK';
 
 const Results = () => {
-  const [data, setData] = useState<CheckAvailabilityResponseType>();
-  const [isLoading, setIsLoading] = useState(false);
+  const { resultsCheckAvailability } = useAppSelector((state) => state);
 
-  const { updateCheckAvailability, updateReservation, reservation, checkAvailability } = useReservation();
-  const [localReservation, setLocalReservation] = useState<ReservationDataType>(reservation);
+  const { updateReservation, reservation } = useReservation();
 
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const onSearch = useCallback(async (data: CheckAvailabilityDataType) => {
-    updateCheckAvailability(data);
-    const res: CheckAvailabilityResponseType = await fetcher(ApiRoutes.VERIFICA_DISPONIBILITA_API, {
-      method: 'POST',
-      body: JSON.stringify({
-        dataDiArrivo: data.startDate,
-        dataDiPartenza: data.endDate,
-        numeroAdulti: data.numAdults,
-        numeroBambini: data.numChildren,
-        numeroCamere: data.numRooms,
-        coupon: data.coupon,
-      }),
-    });
-
-    setData(res);
-  }, []);
-
   const nextStep = () => {
-    updateReservation(localReservation);
+    updateReservation(reservation);
     navigate('/checkout');
   };
 
   const addCategoryRate = useCallback(
     (category: Omit<ListaCategorie, 'listaTariffaPrezzi'>, rate: ListaTariffaPrezzi) => {
-      const { categoryRates } = localReservation;
+      const { categoryRates } = reservation;
 
-      let newCategoryRates: CategoryRateDataType[] = [];
-      let newCategoryRate: CategoryRateDataType = {
-        idCategory: category.idCategoria,
-        ageChildren: 9999,
-        amount: 1,
-        numAdults: 1,
-        numChildren: 0,
-        price: rate.prezzo,
-        idRate: rate.idTariffa,
-        room: 1,
-      };
+      const newCategoryRates = checkCategoryRate(categoryRates, category, rate);
 
-      if (categoryRates.some((item) => item.idCategory === category.idCategoria)) {
-        let precIdRate = categoryRates.find((item) => item.idCategory === category.idCategoria)?.idRate;
-
-        newCategoryRates = categoryRates.filter((item) => {
-          return item.idCategory !== category.idCategoria;
-        });
-
-        if (precIdRate !== rate.idTariffa) {
-          newCategoryRates.push(newCategoryRate);
-        }
-      } else {
-        newCategoryRates = [...categoryRates, newCategoryRate];
-      }
-
-      setLocalReservation({
-        ...localReservation,
+      updateReservation({
+        ...reservation,
         categoryRates: newCategoryRates,
       });
     },
-    [localReservation],
+    [reservation],
   );
 
   useEffect(() => {
-    onSearch(checkAvailability);
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      console.log('data', data);
+    if (resultsCheckAvailability) {
+      console.log('data', resultsCheckAvailability);
     }
-  }, [data]);
+  }, [resultsCheckAvailability, reservation]);
 
   return (
     <div className="space-y-8 pb-20 md:order-2">
-      {data?.listaCategorie.map((categoria, index) => {
-        const categorySelected = localReservation.categoryRates.some(
-          (item) => item.idCategory === categoria.idCategoria,
-        );
+      {resultsCheckAvailability?.listaCategorie.map((categoria, index) => {
+        const categorySelected = reservation.categoryRates.some((item) => item.idCategory === categoria.idCategoria);
 
         return (
           <div
@@ -110,7 +64,8 @@ const Results = () => {
           >
             <div className={clsx('lg:flex lg:gap-3 lg:p-4')}>
               <img
-                className=" object-cover lg:h-44 lg:w-44 lg:rounded-md"
+                loading="lazy"
+                className="object-cover lg:h-44 lg:w-44 lg:rounded-md"
                 src="https://generatorfun.com/code/uploads/Random-Hotel-image-10.jpg"
                 alt=""
               />
@@ -124,7 +79,7 @@ const Results = () => {
             </div>
             {/* Tariffe */}
             {categoria?.listaTariffaPrezzi?.map((tariffaPrezzi, index) => {
-              const rateSelected = localReservation.categoryRates.some((item) => {
+              const rateSelected = reservation.categoryRates.some((item) => {
                 return item.idRate === tariffaPrezzi.idTariffa && item.idCategory === categoria.idCategoria;
               });
 
@@ -174,17 +129,15 @@ const Results = () => {
         <div className="container flex items-end justify-end">
           <Button
             border="default"
-            disabled={localReservation?.categoryRates?.length === 0}
+            disabled={reservation?.categoryRates?.length === 0}
             itemType="submit"
             size="medium"
             className="w-fit"
             onClick={nextStep}
           >
             {t('Prosegui')}
-            {localReservation?.categoryRates?.length !== 0 ? (
-              <Badge className="absolute -right-2 -top-1/2 translate-y-1/2">
-                {localReservation.categoryRates.length}
-              </Badge>
+            {reservation?.categoryRates?.length !== 0 ? (
+              <Badge className="absolute -right-2 -top-1/2 translate-y-1/2">{reservation.categoryRates.length}</Badge>
             ) : null}
           </Button>
         </div>

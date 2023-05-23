@@ -12,7 +12,9 @@ import { ApiRoutes } from '../api/routes/apiRoutes';
 import { CheckAvailabilityResponseType } from '../models/apiData/CategoryRate';
 import { CheckAvailabilityDataType } from '../models/Reservation';
 import useReservation from '../store/hook/useReservation';
-import { useAppSelector } from '../hook/useRTK';
+import { useAppDispatch, useAppSelector } from '../hook/useRTK';
+import Api from '../api/controller/Api';
+import { setResultsCheckAvailability } from '../store/slices/resultsCheckAvailability';
 
 /**
  * Funnel Step:
@@ -30,22 +32,43 @@ const Reservation = () => {
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
 
-  const { updateCheckAvailability, checkAvailability } = useReservation();
+  const dispatch = useAppDispatch();
+  const { updateCheckAvailability, updateReservation, checkAvailability } = useReservation();
 
   const onChangeEditing = useCallback((isEditing: boolean) => {
     setIsEditing(isEditing);
   }, []);
 
-  const onSearch = useCallback(async (data: CheckAvailabilityDataType) => {
+  const onSearch = async (data: CheckAvailabilityDataType) => {
+    setIsLoading(true);
+    if (!firstLoad) {
+      updateReservation(undefined, 'reset');
+    }
     updateCheckAvailability(data);
-    navigate('/risultati');
-  }, []);
+    Api.searchCategoryRate(data)
+      .then((res) => {
+        console.log('res', res);
+        dispatch(setResultsCheckAvailability(res));
+        navigate('/risultati');
+      })
+      .catch((err) => {
+        console.log('err', err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   useEffect(() => {
     if (!checkAvailability.startDate || !checkAvailability.endDate) {
       navigate('/');
+    } else {
+      onSearch(checkAvailability);
     }
+    setFirstLoad(false);
   }, []);
 
   return (

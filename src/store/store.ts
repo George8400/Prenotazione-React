@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import checkAvailabilityReducer from './slices/checkAvailability';
+import resultsCheckAvailabilityReducer from './slices/resultsCheckAvailability';
 import blockRoomsReducer from './slices/blockRooms';
 import reservationReducer from './slices/reservation';
 import persistReducer from 'redux-persist/es/persistReducer';
@@ -19,8 +20,8 @@ export const store = configureStore({
   reducer: {
     checkAvailability: checkAvailabilityPersistedReducer,
     blockRooms: blockRoomsReducer,
-    // reservation: reservationReducer,
     reservation: reservationPersistedReducer,
+    resultsCheckAvailability: resultsCheckAvailabilityReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
