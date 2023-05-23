@@ -6,16 +6,7 @@ export type TemporaryReservationBodyType = {
   dataDiArrivo: string;
   dataDiPartenza: string;
   alloggi: string[]; // lista alloggi resituita da blockRooms
-  categorieTariffe: {
-    categoria: string;
-    tariffa: string;
-    alloggio: string | null;
-    numeroAdulti: string;
-    numeroBambini: string;
-    etaBambini: string;
-    prezzo: string;
-    quantita: string;
-  }[];
+  categorieTariffe: TemporaryReservationCategoryRateType[];
   idEvento: string;
   listaNote: string[];
   numeroAlloggi: string;
@@ -25,4 +16,15 @@ export type TemporaryReservationBodyType = {
   acconto: string;
   totale: string;
   coupon: string;
+};
+
+type TemporaryReservationCategoryRateType = {
+  categoria: string;
+  tariffa: string;
+  alloggio: string | null;
+  numeroAdulti: string;
+  numeroBambini: string;
+  etaBambini: string;
+  prezzo: string;
+  quantita: string;
 };

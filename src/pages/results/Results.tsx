@@ -13,7 +13,6 @@ import InputSpinner from '../../components/core/InputSpinner';
 import Divider from '../../components/core/Divider';
 
 const Results = () => {
-  const [enabledNextStep, setEnabledNextStep] = useState(false);
   const { resultsCheckAvailability } = useAppSelector((state) => state);
 
   const { updateReservation, reservation, checkAvailability } = useReservation();
@@ -133,7 +132,7 @@ const Results = () => {
         <div className="container flex items-end justify-end">
           <Button
             border="default"
-            disabled={!enabledNextStep}
+            disabled={reservation?.totalRooms < checkAvailability.numRooms}
             itemType="submit"
             size="medium"
             className="w-fit"

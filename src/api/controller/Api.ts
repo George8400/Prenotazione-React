@@ -3,7 +3,7 @@ import { BlockRoomsDataType, CheckAvailabilityDataType } from '../../models/Rese
 import { CheckAvailabilityResponseType } from '../../models/apiResponseData/CategoryRate';
 import { ApiRoutes } from '../routes/apiRoutes';
 import { fetcher } from '../utils/fetcher';
-import { TemporaryReservationBodyType } from './types/types';
+import { TemporaryReservationBodyType } from '../../models/apiRequestData/TemporaryReservationBody';
 
 class Api {
   static searchCategoryRate = async (data: CheckAvailabilityDataType) => {
