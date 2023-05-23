@@ -8,13 +8,18 @@ import persistReducer from 'redux-persist/es/persistReducer';
 import persistStore from 'redux-persist/es/persistStore';
 import thunk from 'redux-thunk';
 
-const persistConfig = {
-  key: 'root',
+const persistCheckAvailabilityConfig = {
+  key: 'checkAvailability',
   storage,
 };
 
-const checkAvailabilityPersistedReducer = persistReducer(persistConfig, checkAvailabilityReducer);
-const reservationPersistedReducer = persistReducer(persistConfig, reservationReducer);
+const persistReservationConfig = {
+  key: 'reservation',
+  storage,
+};
+
+const checkAvailabilityPersistedReducer = persistReducer(persistCheckAvailabilityConfig, checkAvailabilityReducer);
+const reservationPersistedReducer = persistReducer(persistReservationConfig, reservationReducer);
 
 export const store = configureStore({
   reducer: {

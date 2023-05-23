@@ -1,5 +1,5 @@
 import { CategoryRateDataType } from '../../../models/Reservation';
-import { ListaCategorie, ListaTariffaPrezzi } from '../../../models/apiData/CategoryRate';
+import { ListaCategorie, ListaTariffaPrezzi } from '../../../models/apiResponseData/CategoryRate';
 
 export const checkCategoryRate = (
   categoryRates: CategoryRateDataType[],
@@ -44,5 +44,8 @@ export const checkCategoryRate = (
     newCategoryRates = [...categoryRates, newCategoryRate];
   }
 
-  return newCategoryRates;
+  const totalRooms = newCategoryRates.reduce((acc, item) => acc + item.amount, 0);
+  const totalPrice = newCategoryRates.reduce((acc, item) => acc + item.amount * Number(item.price), 0);
+
+  return { newCategoryRates, totalRooms, totalPrice };
 };

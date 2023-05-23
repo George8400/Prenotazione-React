@@ -4,7 +4,7 @@ import Button from '../../components/core/Button';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
-import { ListaCategorie, ListaTariffaPrezzi } from '../../models/apiData/CategoryRate';
+import { ListaCategorie, ListaTariffaPrezzi } from '../../models/apiResponseData/CategoryRate';
 import useReservation from '../../store/hook/useReservation';
 import Badge from '../../components/core/Badge';
 import { checkCategoryRate } from './utils/utils';
@@ -14,7 +14,6 @@ import Divider from '../../components/core/Divider';
 
 const Results = () => {
   const [enabledNextStep, setEnabledNextStep] = useState(false);
-  const [numRoomsAdded, setNumRoomsAdded] = useState(0);
   const { resultsCheckAvailability } = useAppSelector((state) => state);
 
   const { updateReservation, reservation, checkAvailability } = useReservation();
@@ -26,11 +25,14 @@ const Results = () => {
     (category: Omit<ListaCategorie, 'listaTariffaPrezzi'>, rate: ListaTariffaPrezzi, amount: number) => {
       const { categoryRates } = reservation;
 
-      const newCategoryRates = checkCategoryRate(categoryRates, category, rate, amount);
+      // algoritmo finito; definiere i controlli per il prosegui e calcolare il numero di amount totale
+      const { newCategoryRates, totalRooms, totalPrice } = checkCategoryRate(categoryRates, category, rate, amount);
 
       updateReservation({
         ...reservation,
         categoryRates: newCategoryRates,
+        totalRooms: totalRooms,
+        totalPrice: totalPrice,
       });
     },
     [reservation],
@@ -76,6 +78,13 @@ const Results = () => {
                 return item.idRate === tariffaPrezzi.idTariffa && item.idCategory === categoria.idCategoria;
               });
 
+              const totalRoomsForCategory = reservation.categoryRates.reduce((acc, item) => {
+                if (item.idCategory === categoria.idCategoria) {
+                  return acc + item.amount;
+                }
+                return acc;
+              }, 0);
+
               return (
                 <div
                   key={tariffaPrezzi.idTariffa + rateSelected}
@@ -104,9 +113,12 @@ const Results = () => {
                     <div className="mt-4 flex items-center justify-end lg:mt-0 lg:justify-center">
                       <InputSpinner
                         value={rateSelected?.amount}
-                        max={checkAvailability.numRooms - numRoomsAdded}
+                        max={Math.min(checkAvailability.numRooms, Number(categoria.quantitaDisponibile))}
                         onChange={(value) => addCategoryRate(categoria, tariffaPrezzi, value)}
-                        disabledIncrement={enabledNextStep}
+                        disabledIncrement={
+                          reservation.totalRooms >= checkAvailability.numRooms ||
+                          Number(totalRoomsForCategory) >= Number(categoria.quantitaDisponibile)
+                        }
                       />
                     </div>
                   </div>
@@ -128,8 +140,8 @@ const Results = () => {
             onClick={nextStep}
           >
             {t('Prosegui')}
-            {reservation?.categoryRates?.length !== 0 ? (
-              <Badge className="absolute -right-2 -top-1/2 translate-y-1/2">{reservation.categoryRates.length}</Badge>
+            {reservation?.totalRooms !== 0 ? (
+              <Badge className="absolute -right-2 -top-1/2 translate-y-1/2">{reservation.totalRooms}</Badge>
             ) : null}
           </Button>
         </div>

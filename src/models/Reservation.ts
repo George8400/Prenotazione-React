@@ -8,11 +8,13 @@ export type CheckAvailabilityDataType = {
 };
 
 export type BlockRoomsDataType = {
-  idCategory: number;
-  numRooms: number;
   startDate: string;
   endDate: string;
-}[];
+  listCategory: {
+    idCategory: string;
+    amount: string;
+  }[];
+};
 
 export type ReservationDataType = {
   firstName: string;
@@ -30,12 +32,15 @@ export type ReservationDataType = {
   numChildren: number;
   ageChildren: number;
   advancePayment: number;
+  totalRooms: number;
+  totalPrice: number;
+  coupon: string;
 };
 
 export type CategoryRateDataType = {
   idCategory: string;
   idRate: string;
-  room: number;
+  room: number | null;
   numAdults: number;
   numChildren: number;
   ageChildren: number; // media

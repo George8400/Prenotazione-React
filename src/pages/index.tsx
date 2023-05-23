@@ -9,7 +9,7 @@ import SearchSidebar from '../components/shared/search-sidebar/SearchSidebar';
 import searchAnimation from '../assets/animations/search-animation.json';
 import { fetcher } from '../api/utils/fetcher';
 import { ApiRoutes } from '../api/routes/apiRoutes';
-import { CheckAvailabilityResponseType } from '../models/apiData/CategoryRate';
+import { CheckAvailabilityResponseType } from '../models/apiResponseData/CategoryRate';
 import { CheckAvailabilityDataType } from '../models/Reservation';
 import useReservation from '../store/hook/useReservation';
 import { useAppDispatch, useAppSelector } from '../hook/useRTK';

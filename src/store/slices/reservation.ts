@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ReservationDataType } from '../../models/Reservation';
 
-const initialState: ReservationDataType | null = {
+const initialState: ReservationDataType = {
   firstName: '',
   lastName: '',
   email: '',
@@ -17,6 +17,9 @@ const initialState: ReservationDataType | null = {
   numChildren: 0,
   ageChildren: 0,
   advancePayment: 0,
+  totalRooms: 0,
+  totalPrice: 0,
+  coupon: '',
 };
 
 export const reservationSlice = createSlice({

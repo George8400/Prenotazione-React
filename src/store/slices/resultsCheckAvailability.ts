@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ReservationDataType } from '../../models/Reservation';
-import { CheckAvailabilityResponseType } from '../../models/apiData/CategoryRate';
+import { CheckAvailabilityResponseType } from '../../models/apiResponseData/CategoryRate';
 
 interface ResultsCheckAvailabilityState extends CheckAvailabilityResponseType {
   isLoading: boolean;
