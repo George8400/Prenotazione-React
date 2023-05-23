@@ -26,14 +26,14 @@ class Api {
     const body: {
       dataDiArrivo: string;
       dataDiPartenza: string;
-      richiestaCategorie: {
+      richiesteCategoria: {
         idCategoria: string;
         quantita: string;
       }[];
     } = {
       dataDiArrivo: data.startDate,
       dataDiPartenza: data.endDate,
-      richiestaCategorie: data.listCategory.map((item) => {
+      richiesteCategoria: data.listCategory.map((item) => {
         return {
           idCategoria: item.idCategory,
           quantita: item.amount,

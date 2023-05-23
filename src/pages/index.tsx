@@ -73,7 +73,7 @@ const Reservation = () => {
 
   return (
     <div className="relative min-h-full py-10">
-      <div className="container flex flex-col gap-6 md:flex-row">
+      <div className="container flex flex-col gap-6 pb-20 md:flex-row">
         <div className="flex w-full flex-col gap-6 md:max-w-xs xl:max-w-search-sidebar">
           {/* Sidebar */}
           <div className={clsx('w-full')}>

@@ -60,7 +60,7 @@ const InputSpinner = ({
       <button
         type="button"
         disabled={disabledDecrementValue || disabledDecrement}
-        className={`h-8 w-8 rounded-full bg-stone-300 p-1 text-center hover:enabled:bg-stone-400 active:enabled:bg-stone-500 disabled:cursor-not-allowed disabled:opacity-50 `}
+        className={`h-8 w-8 rounded-full bg-primary-500 p-1 text-center text-white hover:enabled:bg-primary-400 active:enabled:bg-primary-600 disabled:cursor-not-allowed disabled:opacity-50 `}
         onClick={decrementValue}
       >
         {/* <MinusIcon className="h-full w-full text-gray-800" aria-hidden="true" /> */}-
@@ -76,7 +76,7 @@ const InputSpinner = ({
       <button
         type="button"
         disabled={disabledIncrementValue || disabledIncrement}
-        className={`h-8 w-8 rounded-full bg-stone-300 p-1 text-center hover:enabled:bg-stone-400 active:enabled:bg-stone-500 disabled:cursor-not-allowed disabled:opacity-50`}
+        className={`h-8 w-8 rounded-full bg-primary-500 p-1 text-center text-white hover:enabled:bg-primary-400 active:enabled:bg-primary-600 disabled:cursor-not-allowed disabled:opacity-50`}
         onClick={incrementValue}
       >
         {/* <PlusIcon className="h-full w-full text-gray-800" aria-hidden="true" /> */}+

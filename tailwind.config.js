@@ -40,6 +40,8 @@ export default withAnimations({
           900: "#352F1D",
           950: "#1A170E"
         },
+
+        free: '#059669'
       },
 
       boxShadow: {

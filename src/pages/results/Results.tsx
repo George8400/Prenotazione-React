@@ -3,7 +3,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import Button from '../../components/core/Button';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { ListaCategorie, ListaTariffaPrezzi } from '../../models/apiResponseData/CategoryRate';
 import useReservation from '../../store/hook/useReservation';
 import Badge from '../../components/core/Badge';
@@ -11,6 +11,8 @@ import { checkCategoryRate } from './utils/utils';
 import { useAppSelector } from '../../hook/useRTK';
 import InputSpinner from '../../components/core/InputSpinner';
 import Divider from '../../components/core/Divider';
+import useBreakPoint from '../../hook/useBreakPoint';
+import Api from '../../api/controller/Api';
 
 const Results = () => {
   const { resultsCheckAvailability } = useAppSelector((state) => state);
@@ -19,6 +21,8 @@ const Results = () => {
 
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const { greaterThanMd } = useBreakPoint();
 
   const addCategoryRate = useCallback(
     (category: Omit<ListaCategorie, 'listaTariffaPrezzi'>, rate: ListaTariffaPrezzi, amount: number) => {
@@ -38,11 +42,24 @@ const Results = () => {
   );
 
   const nextStep = () => {
-    navigate('/checkout');
+    Api.blockRooms({
+      startDate: checkAvailability?.startDate,
+      endDate: checkAvailability?.endDate,
+      listCategory: reservation.categoryRates.map((item) => ({
+        idCategory: item.idCategory,
+        amount: reservation.categoryRates
+          .filter((itemFiltered) => item.idCategory === itemFiltered.idCategory)
+          .reduce((acc, curr) => acc + curr.amount, 0)
+          .toString(),
+      })),
+    }).then((res) => {
+      console.log('res', res);
+    });
+    // navigate('/checkout');
   };
 
   return (
-    <div className="space-y-8 pb-20 md:order-2">
+    <div className="space-y-8 md:order-2">
       {resultsCheckAvailability?.listaCategorie.map((categoria, index) => {
         const categorySelected = reservation.categoryRates.some((item) => item.idCategory === categoria.idCategoria);
 
@@ -95,7 +112,7 @@ const Results = () => {
                     <div className="w-full">
                       <div className="flex justify-between">
                         <h3 className="font-semibold">{tariffaPrezzi.tariffa}</h3>
-                        <span className="text-2xl font-bold text-dark">{tariffaPrezzi.prezzo} €</span>
+                        <span className="text-xl font-bold text-dark">{tariffaPrezzi.prezzo} €</span>
                       </div>
 
                       <div className="flex justify-between ">
@@ -103,7 +120,7 @@ const Results = () => {
                           <InformationCircleIcon className="mb-0.5 mr-1 h-3.5 w-3.5 " />
                           {t('Maggiori informazioni')}
                         </a>
-                        <span className="text-right text-xs text-dark">Prezzo per 2 notti - 2 adulti</span>
+                        <span className="text-right text-xs text-dark">Prezzo per stanza</span>
                       </div>
                     </div>
 
@@ -129,20 +146,31 @@ const Results = () => {
       })}
 
       <div className="fixed inset-x-0 bottom-0 border-t bg-white/60 py-5 backdrop-blur-md">
-        <div className="container flex items-end justify-end">
-          <Button
-            border="default"
-            disabled={reservation?.totalRooms < checkAvailability.numRooms}
-            itemType="submit"
-            size="medium"
-            className="w-fit"
-            onClick={nextStep}
-          >
-            {t('Prosegui')}
-            {reservation?.totalRooms !== 0 ? (
-              <Badge className="absolute -right-2 -top-1/2 translate-y-1/2">{reservation.totalRooms}</Badge>
-            ) : null}
-          </Button>
+        <div className="container flex items-center justify-between gap-4">
+          <p className="text-base md:text-xl [&>span]:text-free">
+            Hai selezionato <span className="font-semibold ">{reservation?.totalRooms}</span> camere di{' '}
+            <span className="font-semibold ">{checkAvailability.numRooms}</span>
+          </p>
+
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col items-end">
+              <span className="font-semibold text-dark">Totale</span>
+              <span className="text-xl font-semibold text-free">{reservation?.totalPrice} €</span>
+            </div>
+            <Button
+              border="default"
+              disabled={reservation?.totalRooms < checkAvailability.numRooms}
+              itemType="submit"
+              size={greaterThanMd ? 'large' : 'medium'}
+              className="w-fit"
+              onClick={nextStep}
+            >
+              {t('Prosegui')}
+              {reservation?.totalRooms !== 0 ? (
+                <Badge className="absolute -right-2 -top-1/2 translate-y-1/2">{reservation.totalRooms}</Badge>
+              ) : null}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
