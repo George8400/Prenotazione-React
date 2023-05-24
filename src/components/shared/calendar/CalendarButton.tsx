@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import { Calendar, CalendarProps, DayValue, Locale } from '@hassanmojab/react-modern-calendar-datepicker';
 import { CalendarIcon } from '@heroicons/react/24/outline';
@@ -14,6 +14,8 @@ interface CalendarButtonProps extends CalendarProps<DayValue> {
   locale?: 'it' | 'en';
   className?: string;
   disabled?: boolean;
+  onOpen?: () => void;
+  onClose?: () => void;
 }
 
 const CalendarButton = ({
@@ -23,10 +25,14 @@ const CalendarButton = ({
   disabled,
   className,
   placeholder,
+  onOpen,
+  onClose,
   ...props
 }: CalendarButtonProps) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDay, setSelectedDay] = useState<DayValue>(value);
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const onChangeDate = (date: DayValue) => {
     if (!date) return;
@@ -35,8 +41,31 @@ const CalendarButton = ({
     props.onChange && props.onChange(date);
   };
 
+  useEffect(() => {
+    if (showCalendar) {
+      onOpen && onOpen();
+    } else {
+      onClose && onClose();
+    }
+  }, [showCalendar]);
+
+  useEffect(() => {
+    if (ref.current) {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (ref.current && !ref.current.contains(event.target as Node)) {
+          setShowCalendar(false);
+        }
+      };
+
+      document.addEventListener('mouseup', handleClickOutside);
+      return () => {
+        document.removeEventListener('mouseup', handleClickOutside);
+      };
+    }
+  }, [ref]);
+
   return (
-    <div className={clsx('w-full', className)}>
+    <div ref={ref} className={clsx('w-full', className)}>
       <label
         className={clsx('mb-2 block text-xs font-normal text-gray-700', {
           hidden: !label,
