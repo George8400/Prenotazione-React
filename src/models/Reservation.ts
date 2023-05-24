@@ -41,6 +41,8 @@ export type ReservationDataType = {
 
 export type CategoryRateDataType = {
   idCategory: string;
+  categoryName: string;
+  rateName: string;
   idRate: string;
   room: number | null;
   numAdults: number;

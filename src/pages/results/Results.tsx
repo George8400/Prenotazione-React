@@ -3,7 +3,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import Button from '../../components/core/Button';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { ListaCategorie, ListaTariffaPrezzi } from '../../models/apiResponseData/CategoryRate';
 import useReservation from '../../store/hook/useReservation';
 import Badge from '../../components/core/Badge';
@@ -77,6 +77,14 @@ const Results = () => {
     // ----------------
   };
 
+  useEffect(() => {
+    if (reservation.confirmReservation) {
+      updateReservation({
+        confirmReservation: false,
+      });
+    }
+  }, []);
+
   return (
     <div className="space-y-8 md:order-2">
       {resultsCheckAvailability?.listaCategorie.map((categoria, index) => {
@@ -110,7 +118,7 @@ const Results = () => {
               </div>
 
               <p className="flex items-end justify-end whitespace-nowrap p-3 text-right text-xs text-stone-400">
-                Disponibilità {categoria.quantitaDisponibile}
+                {t('Disponibilità')} {categoria.quantitaDisponibile}
               </p>
             </div>
             {/* Tariffe */}
@@ -137,7 +145,7 @@ const Results = () => {
                     <div className="w-full">
                       <div className="flex justify-between">
                         <h3 className="font-semibold">{tariffaPrezzi.tariffa}</h3>
-                        <span className="text-xl font-bold text-dark">{tariffaPrezzi.prezzo} €</span>
+                        <span className="text-xl font-bold text-dark">{Number(tariffaPrezzi.prezzo).toFixed(0)} €</span>
                       </div>
 
                       <div className="flex justify-between ">
@@ -146,11 +154,9 @@ const Results = () => {
                           {t('Maggiori informazioni')}
                         </a>
                         <span className="text-right text-xs text-dark">
-                          Prezzo per{' '}
-                          {moment(checkAvailability.endDate, 'DD/MM/YYYY').diff(
-                            moment(checkAvailability.startDate, 'DD/MM/YYYY'),
-                            'days',
-                          )}
+                          {t('Prezzo per')}
+                          <span> {reservation.numNights} </span>
+                          {reservation.numNights > 1 ? t(' notti') : t(' notte')}
                         </span>
                       </div>
                     </div>
@@ -179,14 +185,14 @@ const Results = () => {
       <div className="fixed inset-x-0 bottom-0 border-t bg-white/60 py-5 backdrop-blur-md">
         <div className="container flex items-center justify-between gap-4">
           <p className="text-base md:text-xl [&>span]:text-free">
-            Hai selezionato <span className="font-semibold ">{reservation?.totalRooms}</span>{' '}
-            {reservation?.totalRooms === 1 ? 'camera' : 'camere'} di{' '}
+            {t('Hai selezionato')} <span className="font-semibold ">{reservation?.totalRooms}</span>{' '}
+            {reservation?.totalRooms === 1 ? t('camera') : t('camere')} {t('di')}{' '}
             <span className="font-semibold ">{checkAvailability.numRooms}</span>
           </p>
 
           <div className="flex items-center gap-4">
             <div className="flex flex-col items-end">
-              <span className="font-semibold text-dark">Totale</span>
+              <span className="font-semibold text-dark">{t('Totale')}</span>
               <span className="text-xl font-semibold text-free">{reservation?.totalPrice} €</span>
             </div>
             <Button

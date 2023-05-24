@@ -14,9 +14,11 @@ export const checkCategoryRate = (
     amount: amount,
     numAdults: 1,
     numChildren: 0,
-    price: rate.prezzo,
+    price: Number(rate.prezzo).toFixed(2),
     idRate: rate.idTariffa,
     room: 1,
+    categoryName: category.categoria,
+    rateName: rate.tariffa,
   };
 
   // se la categoria con la relativa tariffa è già presente, aggiorno l'amount

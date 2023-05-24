@@ -94,13 +94,13 @@ const SmartCheckinInput = () => {
 
   return (
     <div>
-      <CategoryRateCard
+      {/* <CategoryRateCard
         typeRoomName="Camera Matrimoniale"
         peopleString="Prezzo per 2 notti - 2 adulti"
         price="80 €"
         rangeDate="Dal 01/01/2021 al 03/01/2021"
         rateName="Trattamento B&B"
-      />
+      /> */}
 
       <div className="mt-9">
         <h2 className="text-xl font-bold lg:text-2xl">{t('Smart Check-in')}</h2>
