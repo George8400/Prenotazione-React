@@ -19,6 +19,7 @@ export const checkCategoryRate = (
     room: 1,
     categoryName: category.categoria,
     rateName: rate.tariffa,
+    typology: category.tipologia,
   };
 
   // se la categoria con la relativa tariffa è già presente, aggiorno l'amount

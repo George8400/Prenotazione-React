@@ -16,6 +16,7 @@ export interface ListaCategorie {
   descrizione: string;
   quantitaDisponibile: string;
   listaTariffaPrezzi: ListaTariffaPrezzi[];
+  tipologia: string;
 }
 
 export interface ListaTariffaPrezzi {

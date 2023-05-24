@@ -16,16 +16,16 @@ interface CategoryRateCardProps {
 
 const CategoryRateCard = ({ reservation, onEdit }: CategoryRateCardProps) => {
   return (
-    <WrapperCard className="grid grid-rows-[1fr] !p-5">
-      <div className="flex items-end justify-between">
+    <WrapperCard className="!p-5">
+      <div className="mb-8 flex items-start justify-between sm:items-center">
         <h2 className="text-xl font-bold lg:text-2xl">{t('La tua prenotazione')}</h2>
-        {onEdit ? <EditButton className="hidden lg:flex" onClick={() => onEdit()} /> : null}
+        {onEdit ? <EditButton className="flex" onClick={() => onEdit()} /> : null}
       </div>
 
       {reservation?.categoryRates?.map((categoryRate, index) => {
         return (
           <div key={categoryRate.idCategory + categoryRate.idRate}>
-            <div className="mt-5 h-fit justify-between lg:flex lg:gap-3">
+            <div className="mt-5 h-fit justify-between lg:mt-0 lg:flex lg:gap-3">
               {/* Left side */}
               <div className="flex gap-3">
                 <img
@@ -36,7 +36,7 @@ const CategoryRateCard = ({ reservation, onEdit }: CategoryRateCardProps) => {
 
                 <div className="flex flex-col justify-between lg:p-0">
                   <div className="flex flex-col">
-                    <h2 className="text-xl font-bold lg:text-2xl">{categoryRate?.categoryName}</h2>
+                    <h3 className="text-xl font-bold lg:text-2xl">{categoryRate?.categoryName}</h3>
 
                     <div className="flex">
                       <span className="text-sm font-semibold text-primary-500">{categoryRate?.rateName}</span>
@@ -53,8 +53,10 @@ const CategoryRateCard = ({ reservation, onEdit }: CategoryRateCardProps) => {
               </div>
 
               {/* Right side */}
-              <div className="mt-2 flex w-full items-center justify-end lg:w-fit lg:flex-col lg:items-end lg:text-right">
-                <span className="mt-auto text-2xl font-bold text-dark">
+              <div className="mt-2 flex w-full items-center justify-between lg:w-fit lg:flex-col lg:items-end lg:text-right">
+                <span className="first-letter:uppercase">{categoryRate.typology}</span>
+
+                <span className=" text-2xl font-bold text-dark">
                   {Number(categoryRate?.price) * categoryRate?.amount}€
                 </span>
                 {/* <span className="text-xs text-dark">{peopleString}</span> */}
@@ -67,9 +69,9 @@ const CategoryRateCard = ({ reservation, onEdit }: CategoryRateCardProps) => {
         );
       })}
 
-      <div className="mt-2 flex items-start justify-between gap-4 lg:items-center">
-        <div className="flex items-start gap-1 text-sm text-dark">
-          <CalendarDaysIcon className="mr-1 inline-block h-5 min-w-[20px] text-dark" />
+      <div className="mt-4 flex items-start justify-between gap-4 lg:items-center">
+        <div className="flex items-start gap-1 text-base text-dark">
+          <CalendarDaysIcon className="mr-1 inline-block h-6 min-w-[20px] text-dark" />
           <span className="mt-0.5">
             {t('Dal')} <span className="font-semibold"> {moment(reservation?.startDate).format('DD/MM/YYYY')}</span>{' '}
             {t('al')} <span className="font-semibold"> {moment(reservation?.endDate).format('DD/MM/YYYY')} </span>

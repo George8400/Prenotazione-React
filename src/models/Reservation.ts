@@ -50,4 +50,5 @@ export type CategoryRateDataType = {
   ageChildren: number; // media
   price: string;
   amount: number;
+  typology: string;
 };

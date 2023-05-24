@@ -117,9 +117,13 @@ const Results = () => {
                 </div>
               </div>
 
-              <p className="flex items-end justify-end whitespace-nowrap p-3 text-right text-xs text-stone-400">
-                {t('Disponibilità')} {categoria.quantitaDisponibile}
-              </p>
+              <div className="flex items-center justify-between p-3 pt-0 lg:flex-col lg:p-4">
+                <p className="text-right first-letter:uppercase">{categoria.tipologia}</p>
+
+                <p className="whitespace-nowrap text-right text-xs text-stone-400">
+                  {t('Disponibilità')} {categoria.quantitaDisponibile}
+                </p>
+              </div>
             </div>
             {/* Tariffe */}
             {categoria?.listaTariffaPrezzi?.map((tariffaPrezzi, index) => {
