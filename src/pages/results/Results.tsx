@@ -19,7 +19,7 @@ import Overlay from '../../components/shared/overlay/Overlay';
 const Results = () => {
   const { resultsCheckAvailability } = useAppSelector((state) => state);
 
-  const { updateReservation, reservation, checkAvailability } = useReservation();
+  const { updateReservation, updateBlockRooms, reservation, checkAvailability } = useReservation();
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -61,22 +61,20 @@ const Results = () => {
       })),
     })
       .then((res) => {
-        console.log('res', res);
+        alert(res);
+
+        updateBlockRooms([...res]);
 
         updateReservation({
           confirmReservation: true,
+          rooms: res,
         });
+
+        navigate('/checkout');
       })
       .catch((err) => {
         console.log('err', err);
       });
-
-    // Spostare nel then ----------------
-    updateReservation({
-      confirmReservation: true,
-    });
-    navigate('/checkout');
-    // ----------------
   };
 
   useEffect(() => {

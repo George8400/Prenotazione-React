@@ -8,8 +8,8 @@ export type CheckAvailabilityDataType = {
 };
 
 export type BlockRoomsDataType = {
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | null;
+  endDate: Date | null;
   listCategory: {
     idCategory: string;
     amount: string;
@@ -23,7 +23,7 @@ export type ReservationDataType = {
   phone: string;
   startDate: Date | null;
   endDate: Date | null;
-  rooms: number[]; // roomsBlocked
+  rooms: string[]; // roomsBlocked
   categoryRates: CategoryRateDataType[];
   idEvent: string;
   notes: string[];

@@ -55,7 +55,8 @@ class Api {
       method: 'POST',
       body: JSON.stringify(body),
     });
-    return res;
+
+    return res as string[];
   };
 
   static temporaryReservation = async (data: ReservationDataType) => {

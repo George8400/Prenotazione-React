@@ -13,7 +13,7 @@ const useReservation = () => {
 
   const dispatch = useAppDispatch();
 
-  const updateBlockRooms = (data?: BlockRoomsDataType, action?: 'reset') => {
+  const updateBlockRooms = (data?: string[], action?: 'reset') => {
     console.log('onBlockRooms', data);
 
     if (action === 'reset') {
