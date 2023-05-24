@@ -36,6 +36,8 @@ const Results = () => {
         startDate: checkAvailability.startDate,
         endDate: checkAvailability.endDate,
         categoryRates: newCategoryRates,
+        numAdults: checkAvailability.numAdults,
+        numChildren: checkAvailability.numChildren,
         totalRooms: totalRooms,
         totalPrice: totalPrice,
         numNights: moment(checkAvailability.endDate).diff(moment(checkAvailability.startDate), 'days'),

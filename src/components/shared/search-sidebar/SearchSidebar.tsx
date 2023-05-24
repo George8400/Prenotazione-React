@@ -14,6 +14,7 @@ import moment from 'moment';
 import EditButton from '../../core/EditButton';
 import { DataActionReducer } from '../../../models/type';
 import { CheckAvailabilityDataType } from '../../../models/Reservation';
+import clsx from 'clsx';
 
 interface SearchSidebarProps {
   className?: string;
@@ -106,12 +107,20 @@ const SearchSidebar = ({ onChangeEditing, onSearch, initialData, className }: Se
           e.preventDefault();
         }}
       >
-        <div className="mt-4 flex w-full flex-col justify-center gap-6">
+        <div className="relative mt-4 flex w-full flex-col justify-center gap-6">
+          <div
+            className={clsx('absolute inset-0 z-10 ', {
+              hidden: isEditing,
+            })}
+            onClick={() => handleChangeEditing(true)}
+          />
+
           <CalendarButton
             value={utilsDate.formatDateToDayValue(dataState.startDate)}
             label={t('Arrivo').toString()}
             placeholder={t('Seleziona data di arrivo').toString()}
             locale="it"
+            disabled={!isEditing}
             onChange={(value) => {
               dataDispatch({
                 type: DataActionKind.SET_START_DATE,
@@ -125,6 +134,7 @@ const SearchSidebar = ({ onChangeEditing, onSearch, initialData, className }: Se
             value={utilsDate.formatDateToDayValue(dataState.endDate)}
             label={t('Partenza').toString()}
             placeholder={t('Seleziona data di partenza').toString()}
+            disabled={!isEditing}
             locale="it"
             onChange={(value) => {
               dataDispatch({
@@ -143,6 +153,7 @@ const SearchSidebar = ({ onChangeEditing, onSearch, initialData, className }: Se
             Icon={UserIcon}
             type="number"
             className=""
+            disabled={!isEditing}
             onChange={(e) => {
               dataDispatch({ type: DataActionKind.SET_NUM_ADULTS, payload: e.target.value });
             }}

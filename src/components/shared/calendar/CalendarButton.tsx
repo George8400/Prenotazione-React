@@ -13,9 +13,18 @@ interface CalendarButtonProps extends CalendarProps<DayValue> {
   placeholder?: string;
   locale?: 'it' | 'en';
   className?: string;
+  disabled?: boolean;
 }
 
-const CalendarButton = ({ label, value, locale = 'en', className, placeholder, ...props }: CalendarButtonProps) => {
+const CalendarButton = ({
+  label,
+  value,
+  locale = 'en',
+  disabled,
+  className,
+  placeholder,
+  ...props
+}: CalendarButtonProps) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDay, setSelectedDay] = useState<DayValue>(value);
 
@@ -40,6 +49,7 @@ const CalendarButton = ({ label, value, locale = 'en', className, placeholder, .
         readOnly
         placeholder={placeholder}
         value={utilsDate.formatDayValueToString(selectedDay) || ''}
+        disabled={disabled}
         Icon={CalendarIcon}
         className="!cursor-pointer"
         onClick={() => setShowCalendar(!showCalendar)}
