@@ -32,22 +32,22 @@ enum DataActionKind {
 }
 
 const initialDataState: CheckAvailabilityDataType = {
-  startDate: moment(new Date()).format('DD/MM/YYYY'),
-  endDate: moment(new Date()).add(1, 'week').format('DD/MM/YYYY'),
+  startDate: null,
+  endDate: null,
   numAdults: 0,
   numChildren: 0,
   numRooms: 0,
   coupon: '',
 };
 
-const dataReducer = (state: CheckAvailabilityDataType, action: DataActionReducer<string | number>) => {
+const dataReducer = (state: CheckAvailabilityDataType, action: DataActionReducer<string | number | Date>) => {
   const { payload, type } = action;
 
   switch (type) {
     case DataActionKind.SET_START_DATE:
-      return { ...state, startDate: payload as string };
+      return { ...state, startDate: payload as Date };
     case DataActionKind.SET_END_DATE:
-      return { ...state, endDate: payload as string };
+      return { ...state, endDate: payload as Date };
     case DataActionKind.SET_NUM_ADULTS:
       return { ...state, numAdults: payload as number };
     case DataActionKind.SET_NUM_CHILDREN:
@@ -108,34 +108,32 @@ const SearchSidebar = ({ onChangeEditing, onSearch, initialData, className }: Se
       >
         <div className="mt-4 flex w-full flex-col justify-center gap-6">
           <CalendarButton
-            value={utilsDate.formatStringToDayValue(dataState.startDate)}
+            value={utilsDate.formatDateToDayValue(dataState.startDate)}
             label={t('Arrivo').toString()}
             placeholder={t('Seleziona data di arrivo').toString()}
             locale="it"
             onChange={(value) => {
               dataDispatch({
                 type: DataActionKind.SET_START_DATE,
-                payload: utilsDate.formatDayValueToString(value) ?? '',
+                payload: utilsDate.formatDayValueToDate(value) ?? '',
               });
             }}
             minimumDate={utilsDate.formatDateToDayValue(new Date()) ?? undefined}
           />
 
           <CalendarButton
-            value={utilsDate.formatStringToDayValue(dataState.endDate)}
+            value={utilsDate.formatDateToDayValue(dataState.endDate)}
             label={t('Partenza').toString()}
             placeholder={t('Seleziona data di partenza').toString()}
             locale="it"
             onChange={(value) => {
               dataDispatch({
                 type: DataActionKind.SET_END_DATE,
-                payload: utilsDate.formatDayValueToString(value) ?? '',
+                payload: utilsDate.formatDayValueToDate(value) ?? '',
               });
             }}
             minimumDate={
-              utilsDate.formatStringToDayValue(
-                moment(dataState.startDate, 'DD/MM/YYYY').add(1, 'day').format('DD/MM/YYYY'),
-              ) ?? undefined
+              utilsDate.formatDateToDayValue(moment(dataState.startDate).add(1, 'day').toDate()) ?? undefined
             }
           />
 

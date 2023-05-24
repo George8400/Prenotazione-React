@@ -13,6 +13,8 @@ import InputSpinner from '../../components/core/InputSpinner';
 import Divider from '../../components/core/Divider';
 import useBreakPoint from '../../hook/useBreakPoint';
 import Api from '../../api/controller/Api';
+import moment from 'moment';
+import Overlay from '../../components/shared/overlay/Overlay';
 
 const Results = () => {
   const { resultsCheckAvailability } = useAppSelector((state) => state);
@@ -28,20 +30,23 @@ const Results = () => {
     (category: Omit<ListaCategorie, 'listaTariffaPrezzi'>, rate: ListaTariffaPrezzi, amount: number) => {
       const { categoryRates } = reservation;
 
-      // algoritmo finito; definiere i controlli per il prosegui e calcolare il numero di amount totale
       const { newCategoryRates, totalRooms, totalPrice } = checkCategoryRate(categoryRates, category, rate, amount);
 
       updateReservation({
-        ...reservation,
+        startDate: checkAvailability.startDate,
+        endDate: checkAvailability.endDate,
         categoryRates: newCategoryRates,
         totalRooms: totalRooms,
         totalPrice: totalPrice,
+        numNights: moment(checkAvailability.endDate).diff(moment(checkAvailability.startDate), 'days'),
       });
     },
     [reservation],
   );
 
   const nextStep = () => {
+    if (!checkAvailability?.startDate || !checkAvailability?.endDate) throw new Error('data is required');
+
     Api.blockRooms({
       startDate: checkAvailability?.startDate,
       endDate: checkAvailability?.endDate,
@@ -52,10 +57,24 @@ const Results = () => {
           .reduce((acc, curr) => acc + curr.amount, 0)
           .toString(),
       })),
-    }).then((res) => {
-      console.log('res', res);
+    })
+      .then((res) => {
+        console.log('res', res);
+
+        updateReservation({
+          confirmReservation: true,
+        });
+      })
+      .catch((err) => {
+        console.log('err', err);
+      });
+
+    // Spostare nel then ----------------
+    updateReservation({
+      confirmReservation: true,
     });
-    // navigate('/checkout');
+    navigate('/checkout');
+    // ----------------
   };
 
   return (
@@ -73,20 +92,26 @@ const Results = () => {
               },
             )}
           >
-            <div className={clsx('lg:flex lg:gap-3 lg:p-4')}>
-              <img
-                loading="lazy"
-                className="object-cover lg:h-44 lg:w-44 lg:rounded-md"
-                src="https://generatorfun.com/code/uploads/Random-Hotel-image-10.jpg"
-                alt=""
-              />
+            <div className={clsx('flex w-full flex-col justify-between lg:flex-row')}>
+              <div className="w-full flex-grow lg:flex lg:gap-3 lg:p-4">
+                <img
+                  loading="lazy"
+                  className="object-cover lg:h-44 lg:w-44 lg:rounded-md"
+                  src="https://generatorfun.com/code/uploads/Random-Hotel-image-10.jpg"
+                  alt=""
+                />
 
-              <div className="p-3 lg:p-0">
-                <h2 className="text-xl font-bold lg:text-2xl">{categoria?.categoria}</h2>
-                <p className="mt-1 text-xs text-gray-500">{categoria?.descrizione}</p>
+                <div className="w-full p-3 lg:p-0">
+                  <h2 className="text-xl font-bold lg:text-2xl">{categoria?.categoria}</h2>
+                  <p className="mt-1 text-xs text-gray-500">{categoria?.descrizione}</p>
 
-                <span className="mt-3 block font-semibold">1 letto matrimoniale ??</span>
+                  <span className="mt-3 block font-semibold">1 letto matrimoniale ??</span>
+                </div>
               </div>
+
+              <p className="flex items-end justify-end whitespace-nowrap p-3 text-right text-xs text-stone-400">
+                Disponibilità {categoria.quantitaDisponibile}
+              </p>
             </div>
             {/* Tariffe */}
             {categoria?.listaTariffaPrezzi?.map((tariffaPrezzi, index) => {
@@ -120,7 +145,13 @@ const Results = () => {
                           <InformationCircleIcon className="mb-0.5 mr-1 h-3.5 w-3.5 " />
                           {t('Maggiori informazioni')}
                         </a>
-                        <span className="text-right text-xs text-dark">Prezzo per stanza</span>
+                        <span className="text-right text-xs text-dark">
+                          Prezzo per{' '}
+                          {moment(checkAvailability.endDate, 'DD/MM/YYYY').diff(
+                            moment(checkAvailability.startDate, 'DD/MM/YYYY'),
+                            'days',
+                          )}
+                        </span>
                       </div>
                     </div>
 
@@ -148,7 +179,8 @@ const Results = () => {
       <div className="fixed inset-x-0 bottom-0 border-t bg-white/60 py-5 backdrop-blur-md">
         <div className="container flex items-center justify-between gap-4">
           <p className="text-base md:text-xl [&>span]:text-free">
-            Hai selezionato <span className="font-semibold ">{reservation?.totalRooms}</span> camere di{' '}
+            Hai selezionato <span className="font-semibold ">{reservation?.totalRooms}</span>{' '}
+            {reservation?.totalRooms === 1 ? 'camera' : 'camere'} di{' '}
             <span className="font-semibold ">{checkAvailability.numRooms}</span>
           </p>
 
@@ -173,6 +205,7 @@ const Results = () => {
           </div>
         </div>
       </div>
+      <Overlay isOpen={false} />
     </div>
   );
 };

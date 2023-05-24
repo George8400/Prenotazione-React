@@ -6,14 +6,22 @@ const formatDayValueToString = (date: DayValue) => {
   return date.day + '/' + date.month + '/' + date.year;
 };
 
-const formatDateToDayValue = (date: Date) => {
+const formatDateToDayValue = (date: Date | null) => {
   if (!date) return null;
 
+  const instanceOfDate = new Date(date);
+
   return {
-    year: date.getFullYear(),
-    month: date.getMonth() + 1,
-    day: date.getDate(),
+    year: instanceOfDate.getFullYear(),
+    month: instanceOfDate.getMonth() + 1,
+    day: instanceOfDate.getDate(),
   };
+};
+
+const formatDayValueToDate = (date: DayValue) => {
+  if (!date) return null;
+
+  return new Date(date.year, date.month - 1, date.day);
 };
 
 const formatStringToDayValue = (date: string) => {
@@ -32,4 +40,5 @@ export const utilsDate = {
   formatDayValueToString,
   formatDateToDayValue,
   formatStringToDayValue,
+  formatDayValueToDate,
 };

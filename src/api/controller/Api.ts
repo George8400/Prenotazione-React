@@ -4,19 +4,29 @@ import { CheckAvailabilityResponseType } from '../../models/apiResponseData/Cate
 import { ApiRoutes } from '../routes/apiRoutes';
 import { fetcher } from '../utils/fetcher';
 import { TemporaryReservationBodyType } from '../../models/apiRequestData/TemporaryReservationBody';
+import moment from 'moment';
 
 class Api {
   static searchCategoryRate = async (data: CheckAvailabilityDataType) => {
+    const body: {
+      dataDiArrivo: string;
+      dataDiPartenza: string;
+      numeroAdulti: number;
+      numeroBambini: number;
+      numeroCamere: number;
+      coupon: string;
+    } = {
+      dataDiArrivo: moment(data.startDate).format('DD/MM/YYYY').toString(),
+      dataDiPartenza: moment(data.endDate).format('DD/MM/YYYY').toString(),
+      numeroAdulti: data.numAdults,
+      numeroBambini: data.numChildren,
+      numeroCamere: data.numRooms,
+      coupon: data.coupon,
+    };
+
     const res: CheckAvailabilityResponseType = await fetcher(ApiRoutes.VERIFICA_DISPONIBILITA_API, {
       method: 'POST',
-      body: JSON.stringify({
-        dataDiArrivo: data.startDate,
-        dataDiPartenza: data.endDate,
-        numeroAdulti: data.numAdults,
-        numeroBambini: data.numChildren,
-        numeroCamere: data.numRooms,
-        coupon: data.coupon,
-      }),
+      body: JSON.stringify(body),
     });
 
     return res;
@@ -31,8 +41,8 @@ class Api {
         quantita: string;
       }[];
     } = {
-      dataDiArrivo: data.startDate,
-      dataDiPartenza: data.endDate,
+      dataDiArrivo: moment(data.startDate).format('DD/MM/YYYY').toString(),
+      dataDiPartenza: moment(data.endDate).format('DD/MM/YYYY').toString(),
       richiesteCategoria: data.listCategory.map((item) => {
         return {
           idCategoria: item.idCategory,
@@ -55,8 +65,8 @@ class Api {
       cognome: data.lastName,
       email: data.email,
       numeroDiTelefono: data.phone,
-      dataDiArrivo: data.startDate,
-      dataDiPartenza: data.endDate,
+      dataDiArrivo: moment(data.startDate).format('DD/MM/YYYY').toString(),
+      dataDiPartenza: moment(data.endDate).format('DD/MM/YYYY').toString(),
       alloggi: data.rooms.map((item) => item.toString()),
       categorieTariffe: data.categoryRates.map((item) => {
         return {

@@ -1,6 +1,6 @@
 export type CheckAvailabilityDataType = {
-  startDate: string;
-  endDate: string;
+  startDate: Date | null;
+  endDate: Date | null;
   numAdults: number;
   numChildren: number;
   numRooms: number;
@@ -8,8 +8,8 @@ export type CheckAvailabilityDataType = {
 };
 
 export type BlockRoomsDataType = {
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   listCategory: {
     idCategory: string;
     amount: string;
@@ -21,8 +21,8 @@ export type ReservationDataType = {
   lastName: string;
   email: string;
   phone: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date | null;
+  endDate: Date | null;
   rooms: number[]; // roomsBlocked
   categoryRates: CategoryRateDataType[];
   idEvent: string;
@@ -35,6 +35,8 @@ export type ReservationDataType = {
   totalRooms: number;
   totalPrice: number;
   coupon: string;
+  numNights: number;
+  confirmReservation: boolean; // true quando si va avanti con il tasto prosegui; altrimenti i dati inseriti non sono validi per lo step successivo
 };
 
 export type CategoryRateDataType = {

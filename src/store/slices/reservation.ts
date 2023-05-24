@@ -6,8 +6,8 @@ const initialState: ReservationDataType = {
   lastName: '',
   email: '',
   phone: '',
-  startDate: '',
-  endDate: '',
+  startDate: null,
+  endDate: null,
   rooms: [], // roomsBlocked
   categoryRates: [],
   idEvent: '',
@@ -20,6 +20,8 @@ const initialState: ReservationDataType = {
   totalRooms: 0,
   totalPrice: 0,
   coupon: '',
+  numNights: 0,
+  confirmReservation: false, // true quando si va avanti con il tasto prosegui; altrimenti i dati inseriti non sono validi per lo step successivo
 };
 
 export const reservationSlice = createSlice({
@@ -35,7 +37,6 @@ export const reservationSlice = createSlice({
 
     setReservationReset: (state) => {
       return {
-        ...state,
         ...initialState,
       };
     },

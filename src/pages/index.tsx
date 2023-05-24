@@ -1,15 +1,12 @@
 import { CheckCircleIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import Lottie from 'lottie-react';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutlet, useNavigate } from 'react-router-dom';
 import WrapperCard from '../components/core/WrapperCard';
 import SearchSidebar from '../components/shared/search-sidebar/SearchSidebar';
 import searchAnimation from '../assets/animations/search-animation.json';
-import { fetcher } from '../api/utils/fetcher';
-import { ApiRoutes } from '../api/routes/apiRoutes';
-import { CheckAvailabilityResponseType } from '../models/apiResponseData/CategoryRate';
 import { CheckAvailabilityDataType } from '../models/Reservation';
 import useReservation from '../store/hook/useReservation';
 import { useAppDispatch, useAppSelector } from '../hook/useRTK';
@@ -42,7 +39,7 @@ const Reservation = () => {
     setIsEditing(isEditing);
   }, []);
 
-  const onSearch = async (data: CheckAvailabilityDataType) => {
+  const onSearch = (data: CheckAvailabilityDataType) => {
     setIsLoading(true);
     if (!firstLoad) {
       updateReservation(undefined, 'reset');

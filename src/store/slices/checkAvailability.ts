@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CheckAvailabilityDataType } from '../../models/Reservation';
 
 const initialState: CheckAvailabilityDataType = {
-  startDate: '',
-  endDate: '',
+  startDate: null,
+  endDate: null,
   numAdults: 0,
   numChildren: 0,
   numRooms: 0,
@@ -14,10 +14,10 @@ export const checkAvailabilitySlice = createSlice({
   name: 'checkAvailability',
   initialState: initialState,
   reducers: {
-    setStartDate: (state, action: PayloadAction<string>) => {
+    setStartDate: (state, action: PayloadAction<Date>) => {
       state.startDate = action.payload;
     },
-    setEndDate: (state, action: PayloadAction<string>) => {
+    setEndDate: (state, action: PayloadAction<Date>) => {
       state.endDate = action.payload;
     },
     setNumAdults: (state, action: PayloadAction<number>) => {
