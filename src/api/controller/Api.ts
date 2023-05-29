@@ -5,6 +5,7 @@ import { ApiRoutes } from '../routes/apiRoutes';
 import { fetcher } from '../utils/fetcher';
 import { TemporaryReservationBodyType } from '../../models/apiRequestData/TemporaryReservationBody';
 import moment from 'moment';
+import { isArray } from 'util';
 
 class Api {
   static searchCategoryRate = async (data: CheckAvailabilityDataType) => {
@@ -56,12 +57,19 @@ class Api {
       body: JSON.stringify(body),
     });
 
-    return res as string[];
+    return res as {
+      idAlloggi: string[];
+      categorieMancanti: {
+        idCategoria: string;
+        nome: string;
+        quantitaMancante: string;
+      }[];
+    };
   };
 
   static temporaryReservation = async (data: ReservationDataType) => {
     // il tipo corrisponde a ReservationDataType
-    const body: TemporaryReservationBodyType = {
+    const body: TemporaryReservationBodyType & Record<string, any> = {
       nome: data.firstName,
       cognome: data.lastName,
       email: data.email,
@@ -73,7 +81,6 @@ class Api {
         return {
           categoria: item.idCategory,
           tariffa: item.idRate,
-          alloggio: null,
           numeroAdulti: item.numAdults.toString(),
           numeroBambini: item.numChildren.toString(),
           etaBambini: item.ageChildren.toString(),
@@ -91,6 +98,10 @@ class Api {
       totale: data.totalPrice.toString(),
       coupon: data.coupon,
     };
+
+    Object.keys(body).forEach((key) => !body[key] && delete body[key]);
+
+    console.log(body);
 
     const res = await fetcher(ApiRoutes.PRENOTA_API, {
       method: 'POST',

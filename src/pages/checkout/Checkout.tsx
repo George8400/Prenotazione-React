@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import useReservation from '../../store/hook/useReservation';
 import UserForm, { UserFormType } from '../../components/features/Checkout/UserForm';
 import CategoryRateCard from '../../components/shared/cards/CategoryRateCard';
+import Api from '../../api/controller/Api';
 
 const Checkout = () => {
   const { updateReservation, reservation } = useReservation();
@@ -22,6 +23,21 @@ const Checkout = () => {
       email: data.email,
       phone: data.phone,
     });
+
+    Api.temporaryReservation({
+      ...reservation,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      phone: data.phone,
+    })
+      .then((res) => {
+        console.log('temporaryReservation', res);
+        window.open(res.approvalLink, '_blank');
+      })
+      .catch((err) => {
+        console.log('temporaryReservation', err);
+      });
 
     // navigate('/checkout/success');
   };

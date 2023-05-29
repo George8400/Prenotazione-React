@@ -7,7 +7,7 @@ export type TemporaryReservationBodyType = {
   dataDiPartenza: string;
   alloggi: string[]; // lista alloggi resituita da blockRooms
   categorieTariffe: TemporaryReservationCategoryRateType[];
-  idEvento: string;
+  idEvento?: number;
   listaNote: string[];
   numeroAlloggi: string;
   numeroAdulti: string;
@@ -21,7 +21,7 @@ export type TemporaryReservationBodyType = {
 type TemporaryReservationCategoryRateType = {
   categoria: string;
   tariffa: string;
-  alloggio: string | null;
+  // alloggio: string | null;
   numeroAdulti: string;
   numeroBambini: string;
   etaBambini: string;

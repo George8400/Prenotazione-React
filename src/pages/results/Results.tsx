@@ -61,16 +61,21 @@ const Results = () => {
       })),
     })
       .then((res) => {
-        alert(res);
+        const { categorieMancanti, idAlloggi } = res;
 
-        updateBlockRooms([...res]);
+        if (categorieMancanti?.length <= 0 && idAlloggi?.length > 0) {
+          updateBlockRooms(idAlloggi);
 
-        updateReservation({
-          confirmReservation: true,
-          rooms: res,
-        });
+          updateReservation({
+            confirmReservation: true,
+            rooms: idAlloggi,
+          });
 
-        navigate('/checkout');
+          navigate('/checkout');
+          return;
+        } else {
+          // mostrare un alert con le categorie mancanti
+        }
       })
       .catch((err) => {
         console.log('err', err);

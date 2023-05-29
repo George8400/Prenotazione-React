@@ -1,0 +1,180 @@
+{
+  "codicePrenotazione": "1317996717",
+  "dataDiArrivo": "2023-05-23T22:00:00.000+00:00",
+  "dataDiPartenza": "2023-05-26T22:00:00.000+00:00",
+  "nomeGruppo": null,
+  "numeroAlloggi": 0,
+  "numeroAdulti": 2,
+  "numeroBambini": 2,
+  "etaBambini": 0,
+  "totale": 405.0,
+  "totalePagato": false,
+  "prenotazioneDiGruppo": false,
+  "evento": null,
+  "ospiti": null,
+  "intestatario": {
+    "nome": "Alessio",
+    "cognome": "Spingola",
+    "statoDiNascita": null,
+    "luogoDiNascita": null,
+    "dataDiNascita": null,
+    "cittadinanza": null,
+    "genere": null,
+    "tipoDiDocumento": null,
+    "numeroDocumento": null,
+    "luogoDocumento": null,
+    "tipoDiAlloggiato": null,
+    "email": "spingola.alessio@gmail.com",
+    "numeroDiTelefono": "3205560184",
+    "ospiteOTA": false,
+    "id": 2
+  },
+  "configurazionePrenotazione": null,
+  "alloggi": [
+    {
+      "nomeAlloggio": "104",
+      "accessibilita": true,
+      "attiva": true,
+      "numeroLettiMatrimoniali": 1,
+      "numeroLettiSingoli": 0,
+      "categoria": {
+        "idChannelManager": null,
+        "shortName": "dus",
+        "nome": "Doppia uso singolo",
+        "numeroPosti": 1,
+        "numeroLetti": 1,
+        "disponibilitaTot": 5,
+        "descrizione": "descrizione",
+        "prezzoDefault": 55.0,
+        "sincronizzaSuOTA": false,
+        "tipologia": "economy",
+        "listaImmagini": [
+          {
+            "nome": "dadde1fd-34ca-433d-b805-e228bc543af7",
+            "path": "D:\\ImmaginiBarbieri\\dadde1fd-34ca-433d-b805-e228bc543af7.png",
+            "categoria": {
+              "idChannelManager": null,
+              "shortName": "dus",
+              "nome": "Doppia uso singolo",
+              "numeroPosti": 1,
+              "numeroLetti": 1,
+              "disponibilitaTot": 5,
+              "descrizione": "descrizione",
+              "prezzoDefault": 55.0,
+              "sincronizzaSuOTA": false,
+              "tipologia": "economy",
+              "listaAlloggi": [
+                {
+                  "nomeAlloggio": "101",
+                  "accessibilita": true,
+                  "attiva": true,
+                  "numeroLettiMatrimoniali": 1,
+                  "numeroLettiSingoli": 0,
+                  "id": 1
+                },
+                {
+                  "nomeAlloggio": "102",
+                  "accessibilita": true,
+                  "attiva": true,
+                  "numeroLettiMatrimoniali": 1,
+                  "numeroLettiSingoli": 0,
+                  "id": 2
+                },
+                {
+                  "nomeAlloggio": "103",
+                  "accessibilita": true,
+                  "attiva": true,
+                  "numeroLettiMatrimoniali": 1,
+                  "numeroLettiSingoli": 0,
+                  "id": 3
+                },
+                {
+                  "nomeAlloggio": "104",
+                  "accessibilita": true,
+                  "attiva": true,
+                  "numeroLettiMatrimoniali": 1,
+                  "numeroLettiSingoli": 0,
+                  "id": 4
+                },
+                {
+                  "nomeAlloggio": "105",
+                  "accessibilita": true,
+                  "attiva": true,
+                  "numeroLettiMatrimoniali": 1,
+                  "numeroLettiSingoli": 0,
+                  "id": 5
+                }
+              ],
+              "id": 1
+            },
+            "id": 7
+          },
+          {
+            "nome": "7d80c442-b000-4ccd-8972-f47209df1161",
+            "path": "D:\\ImmaginiBarbieri\\7d80c442-b000-4ccd-8972-f47209df1161.png",
+            "categoria": {
+              "idChannelManager": null,
+              "shortName": "dus",
+              "nome": "Doppia uso singolo",
+              "numeroPosti": 1,
+              "numeroLetti": 1,
+              "disponibilitaTot": 5,
+              "descrizione": "descrizione",
+              "prezzoDefault": 55.0,
+              "sincronizzaSuOTA": false,
+              "tipologia": "economy",
+              "listaAlloggi": [
+                {
+                  "nomeAlloggio": "101",
+                  "accessibilita": true,
+                  "attiva": true,
+                  "numeroLettiMatrimoniali": 1,
+                  "numeroLettiSingoli": 0,
+                  "id": 1
+                },
+                {
+                  "nomeAlloggio": "102",
+                  "accessibilita": true,
+                  "attiva": true,
+                  "numeroLettiMatrimoniali": 1,
+                  "numeroLettiSingoli": 0,
+                  "id": 2
+                },
+                {
+                  "nomeAlloggio": "103",
+                  "accessibilita": true,
+                  "attiva": true,
+                  "numeroLettiMatrimoniali": 1,
+                  "numeroLettiSingoli": 0,
+                  "id": 3
+                },
+                {
+                  "nomeAlloggio": "104",
+                  "accessibilita": true,
+                  "attiva": true,
+                  "numeroLettiMatrimoniali": 1,
+                  "numeroLettiSingoli": 0,
+                  "id": 4
+                },
+                {
+                  "nomeAlloggio": "105",
+                  "accessibilita": true,
+                  "attiva": true,
+                  "numeroLettiMatrimoniali": 1,
+                  "numeroLettiSingoli": 0,
+                  "id": 5
+                }
+              ],
+              "id": 1
+            },
+            "id": 8
+          }
+        ],
+        "id": 1
+      },
+      "id": 4
+    }
+  ],
+  "coupon": null,
+  "id": 2
+}

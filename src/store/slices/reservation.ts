@@ -10,7 +10,7 @@ const initialState: ReservationDataType = {
   endDate: null,
   rooms: [], // roomsBlocked
   categoryRates: [],
-  idEvent: '',
+  idEvent: 0,
   notes: [],
   numRooms: 0,
   numAdults: 0,

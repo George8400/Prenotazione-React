@@ -12,6 +12,8 @@ import useReservation from '../store/hook/useReservation';
 import { useAppDispatch, useAppSelector } from '../hook/useRTK';
 import Api from '../api/controller/Api';
 import { setResultsCheckAvailability } from '../store/slices/resultsCheckAvailability';
+import Overlay from '../components/shared/overlay/Overlay';
+import useSearch from '../hook/useSearch';
 
 /**
  * Funnel Step:
@@ -23,49 +25,16 @@ import { setResultsCheckAvailability } from '../store/slices/resultsCheckAvailab
  */
 
 const Reservation = () => {
-  const { t, i18n } = useTranslation();
-
-  const outlet = useOutlet();
-  const navigate = useNavigate();
-
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [firstLoad, setFirstLoad] = useState(true);
 
-  const dispatch = useAppDispatch();
-  const { updateCheckAvailability, updateReservation, checkAvailability } = useReservation();
+  const { t, i18n } = useTranslation();
+  const outlet = useOutlet();
+
+  const { isLoading, onSearch } = useSearch();
+  const { checkAvailability } = useReservation();
 
   const onChangeEditing = useCallback((isEditing: boolean) => {
     setIsEditing(isEditing);
-  }, []);
-
-  const onSearch = (data: CheckAvailabilityDataType) => {
-    setIsLoading(true);
-    if (!firstLoad) {
-      updateReservation(undefined, 'reset');
-    }
-    updateCheckAvailability(data);
-    Api.searchCategoryRate(data)
-      .then((res) => {
-        console.log('res', res);
-        dispatch(setResultsCheckAvailability(res));
-        navigate('/risultati');
-      })
-      .catch((err) => {
-        console.log('err', err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    if (!checkAvailability.startDate || !checkAvailability.endDate) {
-      navigate('/');
-    } else {
-      onSearch(checkAvailability);
-    }
-    setFirstLoad(false);
   }, []);
 
   return (
@@ -167,6 +136,8 @@ const Reservation = () => {
           )}
         </div>
       </div>
+
+      <Overlay isOpen={isLoading} />
     </div>
   );
 };

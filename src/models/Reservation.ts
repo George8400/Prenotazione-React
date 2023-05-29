@@ -25,7 +25,7 @@ export type ReservationDataType = {
   endDate: Date | null;
   rooms: string[]; // roomsBlocked
   categoryRates: CategoryRateDataType[];
-  idEvent: string;
+  idEvent: number;
   notes: string[];
   numRooms: number;
   numAdults: number;
