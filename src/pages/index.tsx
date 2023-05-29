@@ -1,17 +1,13 @@
 import { CheckCircleIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import Lottie from 'lottie-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useOutlet, useNavigate } from 'react-router-dom';
+import { useOutlet } from 'react-router-dom';
 import WrapperCard from '../components/core/WrapperCard';
 import SearchSidebar from '../components/shared/search-sidebar/SearchSidebar';
 import searchAnimation from '../assets/animations/search-animation.json';
-import { CheckAvailabilityDataType } from '../models/Reservation';
 import useReservation from '../store/hook/useReservation';
-import { useAppDispatch, useAppSelector } from '../hook/useRTK';
-import Api from '../api/controller/Api';
-import { setResultsCheckAvailability } from '../store/slices/resultsCheckAvailability';
 import Overlay from '../components/shared/overlay/Overlay';
 import useSearch from '../hook/useSearch';
 
@@ -19,7 +15,7 @@ import useSearch from '../hook/useSearch';
  * Funnel Step:
  * 1. index.tsx --> Check availability --> /risultati
  * 2. Block room (internal) --> /checkout
- * 3. Checkout
+ * 3. Temporary Reservation
  * 4. Payment
  * 5. Smart Checkin
  */

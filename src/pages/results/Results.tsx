@@ -49,16 +49,24 @@ const Results = () => {
   const nextStep = () => {
     if (!checkAvailability?.startDate || !checkAvailability?.endDate) throw new Error('data is required');
 
-    Api.blockRooms({
-      startDate: checkAvailability?.startDate,
-      endDate: checkAvailability?.endDate,
-      listCategory: reservation.categoryRates.map((item) => ({
+    let mapListIdCategory = new Map<string, { idCategory: string; amount: string }>();
+
+    reservation.categoryRates.forEach((item) => {
+      if (mapListIdCategory.has(item.idCategory)) return;
+
+      mapListIdCategory.set(item.idCategory, {
         idCategory: item.idCategory,
         amount: reservation.categoryRates
           .filter((itemFiltered) => item.idCategory === itemFiltered.idCategory)
           .reduce((acc, curr) => acc + curr.amount, 0)
           .toString(),
-      })),
+      });
+    });
+
+    Api.blockRooms({
+      startDate: checkAvailability?.startDate,
+      endDate: checkAvailability?.endDate,
+      listCategory: Array.from(mapListIdCategory.values()),
     })
       .then((res) => {
         const { categorieMancanti, idAlloggi } = res;
@@ -71,10 +79,10 @@ const Results = () => {
             rooms: idAlloggi,
           });
 
-          navigate('/checkout');
-          return;
+          return navigate('/checkout');
         } else {
           // mostrare un alert con le categorie mancanti
+          alert('categorie mancanti');
         }
       })
       .catch((err) => {

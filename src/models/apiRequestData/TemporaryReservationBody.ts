@@ -13,7 +13,6 @@ export type TemporaryReservationBodyType = {
   numeroAdulti: string;
   numeroBambini: string;
   etaBambini: string;
-  acconto: string;
   totale: string;
   coupon: string;
 };

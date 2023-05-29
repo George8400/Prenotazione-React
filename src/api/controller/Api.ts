@@ -44,12 +44,13 @@ class Api {
     } = {
       dataDiArrivo: moment(data.startDate).format('DD/MM/YYYY').toString(),
       dataDiPartenza: moment(data.endDate).format('DD/MM/YYYY').toString(),
-      richiesteCategoria: data.listCategory.map((item) => {
-        return {
-          idCategoria: item.idCategory,
-          quantita: item.amount,
-        };
-      }),
+      richiesteCategoria:
+        data?.listCategory?.map((item) => {
+          return {
+            idCategoria: item.idCategory || '',
+            quantita: item.amount?.toString() || '',
+          };
+        }) || [],
     };
 
     const res = await fetcher(ApiRoutes.BLOCCA_STANZE_API, {
@@ -94,7 +95,6 @@ class Api {
       numeroAdulti: data.numAdults.toString(),
       numeroBambini: data.numChildren.toString(),
       etaBambini: data.ageChildren.toString(),
-      acconto: data.advancePayment.toString(),
       totale: data.totalPrice.toString(),
       coupon: data.coupon,
     };
