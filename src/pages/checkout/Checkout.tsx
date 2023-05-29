@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import WrapperCard from '../../components/core/WrapperCard';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -8,9 +8,11 @@ import CategoryRateCard from '../../components/shared/cards/CategoryRateCard';
 import Api from '../../api/controller/Api';
 import ErrorDialog from '../../components/shared/dialog/ErrorDialog';
 import ReservationSuccessDialog from '../../components/shared/dialog/ReservationSuccessDialog';
+import Overlay from '../../components/shared/overlay/Overlay';
 
 const Checkout = () => {
   const [isLoadingCapture, setIsLoadingCapture] = useState(false);
+  const [isLoadingTemporaryReservation, setIsLoadingTemporaryReservation] = useState(false);
   const [showSuccessCapture, setShowSuccessCapture] = useState(false);
   const [showErrorCapture, setShowErrorCapture] = useState(false);
 
@@ -23,6 +25,8 @@ const Checkout = () => {
 
   const handleCheckout = (data: UserFormType) => {
     console.log('Checkout', data);
+
+    setIsLoadingTemporaryReservation(true);
 
     updateReservation({
       firstName: data.firstName,
@@ -44,9 +48,10 @@ const Checkout = () => {
       })
       .catch((err) => {
         console.log('temporaryReservation', err);
+      })
+      .finally(() => {
+        setIsLoadingTemporaryReservation(false);
       });
-
-    // navigate('/checkout/success');
   };
 
   const onCapture = () => {
@@ -116,6 +121,11 @@ const Checkout = () => {
       />
 
       <ReservationSuccessDialog isOpen={showSuccessCapture} onClose={onCloseSuccessCapture} />
+
+      <Overlay
+        isOpen={isLoadingTemporaryReservation || isLoadingCapture}
+        text={t('Verifica Informazioni...').toString()}
+      />
     </div>
   );
 };

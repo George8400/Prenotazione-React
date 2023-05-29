@@ -6,6 +6,7 @@ import useReservation from '../../store/hook/useReservation';
 import CategoryRateCard from '../../components/shared/cards/CategoryRateCard';
 import { useLayoutEffect } from 'react';
 import WrapperCard from '../../components/core/WrapperCard';
+import { UserIcon } from '@heroicons/react/24/outline';
 
 const CheckoutSuccess = () => {
   const { reservation } = useReservation();
@@ -35,12 +36,21 @@ const CheckoutSuccess = () => {
           <CategoryRateCard reservation={reservation} />
 
           <WrapperCard className="w-full">
-            <div className="flex flex-col items-center gap-4">
-              <h2>{t('Intestatario')}</h2>
-              <div className="flex flex-col items-center gap-4">
-                <p className="text-xl font-bold text-dark">{`${firstName} ${lastName}`}</p>
-                <p className="text-xl font-bold text-dark">{email}</p>
-                <p className="text-xl font-bold text-dark">{phone}</p>
+            <div className="flex flex-col items-start gap-4">
+              <div className="flex items-end gap-2">
+                <UserIcon className="h-8 w-8 text-dark" />
+                <h2 className="translate-y-1 text-xl font-bold lg:text-2xl">{t('Intestatario')}</h2>
+              </div>
+              <div className="flex flex-col items-start gap-4">
+                <p className="w-fit text-lg text-dark  lg:text-lg">
+                  {t('Nome')}: <strong>{`${firstName} ${lastName}`}</strong>
+                </p>
+                <p className="w-fit text-lg text-dark lg:text-lg">
+                  {t('Email')}: <strong>{email}</strong>
+                </p>
+                <p className="w-fit text-lg text-dark lg:text-lg">
+                  {t('Telefono')}: <strong>{phone}</strong>
+                </p>
               </div>
             </div>
           </WrapperCard>

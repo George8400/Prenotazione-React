@@ -4,10 +4,11 @@ import { BeatLoader } from 'react-spinners';
 
 interface OverlayProps {
   isOpen: boolean;
+  Loader?: JSX.Element;
   text?: string;
 }
 
-const Overlay = ({ isOpen, text }: OverlayProps) => {
+const Overlay = ({ isOpen, Loader, text }: OverlayProps) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => {}}>
@@ -34,9 +35,9 @@ const Overlay = ({ isOpen, text }: OverlayProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="flex aspect-video w-32 transform items-center justify-center overflow-hidden rounded-2xl bg-white/80 p-6 text-left align-middle shadow-xl backdrop-blur-sm transition-all">
-                <BeatLoader color="#6D4A3F" loading={true} className="h-fit w-fit" />
-                <p className="">{text}</p>
+              <Dialog.Panel className="flex aspect-video transform flex-col items-center justify-center gap-4 overflow-hidden rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-sm transition-all">
+                {Loader ? Loader : <BeatLoader color="#6D4A3F" loading={true} className="m-auto" />}
+                {text ? <p className="">{text}</p> : null}
               </Dialog.Panel>
             </Transition.Child>
           </div>

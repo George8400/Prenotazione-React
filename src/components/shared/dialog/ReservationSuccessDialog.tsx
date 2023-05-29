@@ -11,7 +11,7 @@ const ReservationSuccessDialog = ({ isOpen, onClose }: CustomDialogProps) => {
     <CustomDialog isOpen={isOpen} onClose={() => onClose()} className="!p-0">
       <div className="relative flex h-full w-full flex-col items-center gap-4 p-8">
         <Lottie animationData={seccessBgAnimation} className="absolute inset-0 h-full w-full" loop />
-        <Lottie animationData={checkAnimation} className="h-1/2 w-1/2" loop />
+        <Lottie animationData={checkAnimation} className="h-[40%] w-[40%]" loop />
 
         <h2 className=" mt-4 text-3xl font-medium leading-6 text-gray-900">{t('Prenotazione effettuata')}!</h2>
 
