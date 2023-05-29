@@ -6,9 +6,13 @@ import useReservation from '../../store/hook/useReservation';
 import UserForm, { UserFormType } from '../../components/features/Checkout/UserForm';
 import CategoryRateCard from '../../components/shared/cards/CategoryRateCard';
 import Api from '../../api/controller/Api';
+import ErrorDialog from '../../components/shared/dialog/ErrorDialog';
+import ReservationSuccessDialog from '../../components/shared/dialog/ReservationSuccessDialog';
 
 const Checkout = () => {
   const [isLoadingCapture, setIsLoadingCapture] = useState(false);
+  const [showSuccessCapture, setShowSuccessCapture] = useState(false);
+  const [showErrorCapture, setShowErrorCapture] = useState(false);
 
   const { updateReservation, reservation } = useReservation();
   const params = useSearchParams();
@@ -36,7 +40,7 @@ const Checkout = () => {
     })
       .then((res) => {
         console.log('temporaryReservation', res);
-        window.open(res.approvalLink, '_blank');
+        window.open(res.approvalLink, '_self');
       })
       .catch((err) => {
         console.log('temporaryReservation', err);
@@ -54,24 +58,34 @@ const Checkout = () => {
     if (!payerId || !token) return;
 
     setIsLoadingCapture(true);
+
     Api.captureReservation(token)
       .then((res) => {
         console.log('captureReservation', res);
+        setShowSuccessCapture(true);
+        updateReservation({ paymentMade: true });
       })
       .catch((err) => {
-        console.log('captureReservation', err);
+        console.log('captureReservationError', err);
+        setShowErrorCapture(true);
       })
       .finally(() => {
         setIsLoadingCapture(false);
       });
   };
 
-  useLayoutEffect(() => {
-    if (!reservation.confirmReservation) navigate('/risultati');
-  }, []);
+  const onCloseSuccessCapture = () => {
+    setShowSuccessCapture(false);
+    navigate('/checkout/success');
+  };
 
-  useEffect(() => {
-    onCapture();
+  useLayoutEffect(() => {
+    if (!reservation.confirmReservation || reservation.paymentMade) {
+      updateReservation(undefined, 'reset');
+      navigate('/risultati');
+    } else {
+      onCapture();
+    }
   }, []);
 
   return (
@@ -83,6 +97,7 @@ const Checkout = () => {
 
         <UserForm
           onSubmit={handleCheckout}
+          paymentMade={reservation.paymentMade}
           initialState={{
             firstName: reservation.firstName,
             lastName: reservation.lastName,
@@ -92,6 +107,15 @@ const Checkout = () => {
           }}
         />
       </WrapperCard>
+
+      <ErrorDialog
+        title={t('Ooops!')}
+        description={t('Si è verificato un errore durante la prenotazione. Riprova più tardi.')}
+        isOpen={showErrorCapture}
+        onClose={() => setShowErrorCapture(false)}
+      />
+
+      <ReservationSuccessDialog isOpen={showSuccessCapture} onClose={onCloseSuccessCapture} />
     </div>
   );
 };

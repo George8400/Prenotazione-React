@@ -37,6 +37,7 @@ export type ReservationDataType = {
   coupon: string;
   numNights: number;
   confirmReservation: boolean; // true quando si va avanti con il tasto prosegui; altrimenti i dati inseriti non sono validi per lo step successivo
+  paymentMade: boolean;
 };
 
 export type CategoryRateDataType = {

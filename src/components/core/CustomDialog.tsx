@@ -1,16 +1,18 @@
 import { Transition, Dialog } from '@headlessui/react';
-import React, { Fragment } from 'react';
-import { BeatLoader } from 'react-spinners';
+import clsx from 'clsx';
+import React, { FC, Fragment, useState } from 'react';
 
-interface OverlayProps {
+interface CustomDialogProps {
   isOpen: boolean;
-  text?: string;
+  children?: React.ReactNode;
+  className?: string;
+  onClose: () => void;
 }
 
-const Overlay = ({ isOpen, text }: OverlayProps) => {
+const CustomDialog: FC<CustomDialogProps> = ({ isOpen, children, className, onClose }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={() => {}}>
+      <Dialog as="div" className="relative z-10" onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -20,7 +22,7 @@ const Overlay = ({ isOpen, text }: OverlayProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -34,9 +36,13 @@ const Overlay = ({ isOpen, text }: OverlayProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="flex aspect-video w-32 transform items-center justify-center overflow-hidden rounded-2xl bg-white/80 p-6 text-left align-middle shadow-xl backdrop-blur-sm transition-all">
-                <BeatLoader color="#6D4A3F" loading={true} className="h-fit w-fit" />
-                <p className="">{text}</p>
+              <Dialog.Panel
+                className={clsx(
+                  'w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all',
+                  className,
+                )}
+              >
+                {children}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -46,4 +52,5 @@ const Overlay = ({ isOpen, text }: OverlayProps) => {
   );
 };
 
-export default Overlay;
+export { CustomDialog };
+export type { CustomDialogProps };

@@ -3,7 +3,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import Button from '../../components/core/Button';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ListaCategorie, ListaTariffaPrezzi } from '../../models/apiResponseData/CategoryRate';
 import useReservation from '../../store/hook/useReservation';
 import Badge from '../../components/core/Badge';
@@ -15,11 +15,20 @@ import useBreakPoint from '../../hook/useBreakPoint';
 import Api from '../../api/controller/Api';
 import moment from 'moment';
 import Overlay from '../../components/shared/overlay/Overlay';
+import useSearch from '../../hook/useSearch';
+import ErrorDialog from '../../components/shared/dialog/ErrorDialog';
 
 const Results = () => {
+  const [errorMessage, setErrorMessage] = useState<{
+    title: string;
+    message: string;
+  } | null>(null);
+
   const { resultsCheckAvailability } = useAppSelector((state) => state);
 
   const { updateReservation, updateBlockRooms, reservation, checkAvailability } = useReservation();
+
+  const { isLoading, refreshSearch } = useSearch();
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -82,11 +91,18 @@ const Results = () => {
           return navigate('/checkout');
         } else {
           // mostrare un alert con le categorie mancanti
-          alert('categorie mancanti');
+          setErrorMessage({
+            title: t('Camere non più disponibili'),
+            message: t('Le camere selezionate non sono più disponibili. Seleziona nuove camere.'),
+          });
         }
       })
       .catch((err) => {
         console.log('err', err);
+        setErrorMessage({
+          title: t('Ooops!'),
+          message: t('Qualcosa è andato storto. Riprova più tardi. :('),
+        });
       });
   };
 
@@ -228,7 +244,18 @@ const Results = () => {
           </div>
         </div>
       </div>
-      <Overlay isOpen={false} />
+
+      <ErrorDialog
+        title={t(errorMessage?.title || 'Errore')}
+        description={t(errorMessage?.message || 'Si è verificato un errore')}
+        isOpen={Boolean(errorMessage)}
+        onClose={() => {
+          setErrorMessage(null);
+          refreshSearch();
+        }}
+      />
+
+      <Overlay isOpen={isLoading} />
     </div>
   );
 };

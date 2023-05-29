@@ -7,6 +7,7 @@ import { DataActionReducer } from '../../../models/type';
 
 interface UserFormProps {
   initialState?: UserFormType;
+  paymentMade?: boolean;
   onSubmit: (data: UserFormType) => void;
 }
 
@@ -54,7 +55,7 @@ const dataReducer = (state: UserFormType, action: DataActionReducer<string | num
   }
 };
 
-const UserForm = ({ initialState, onSubmit }: UserFormProps) => {
+const UserForm = ({ initialState, paymentMade, onSubmit }: UserFormProps) => {
   const [dataState, dataDispatch] = useReducer(dataReducer, initialState ?? initialDataState);
 
   return (
@@ -149,13 +150,15 @@ const UserForm = ({ initialState, onSubmit }: UserFormProps) => {
         </div>
       </div>
 
-      <div className="mt-8 flex flex-col justify-end gap-4 sm:flex-row">
-        <img src={paymentsImage} alt="" className="max-w-[200px]" />
+      {!paymentMade ? (
+        <div className="mt-8 flex flex-col justify-end gap-4 sm:flex-row">
+          <img src={paymentsImage} alt="" className="max-w-[200px]" />
 
-        <Button className="sm:w-fit" itemType="submit">
-          <span className="text-sm font-bold">{t('Procedi al pagamento')}</span>
-        </Button>
-      </div>
+          <Button className="sm:w-fit" itemType="submit">
+            <span className="text-sm font-bold">{t('Procedi al pagamento')}</span>
+          </Button>
+        </div>
+      ) : null}
     </form>
   );
 };
