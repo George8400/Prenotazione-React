@@ -1,7 +1,7 @@
 import { useLayoutEffect, useState } from 'react';
 import WrapperCard from '../../components/core/WrapperCard';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import useReservation from '../../store/hook/useReservation';
 import UserForm, { UserFormType } from '../../components/features/Checkout/UserForm';
 import CategoryRateCard from '../../components/shared/cards/CategoryRateCard';

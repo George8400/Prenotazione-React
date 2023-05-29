@@ -10,6 +10,7 @@ import searchAnimation from '../assets/animations/search-animation.json';
 import useReservation from '../store/hook/useReservation';
 import Overlay from '../components/shared/overlay/Overlay';
 import useSearch from '../hook/useSearch';
+import Timer from '../components/shared/timer/Timer';
 
 /**
  * Funnel Step:
@@ -23,11 +24,11 @@ import useSearch from '../hook/useSearch';
 const Reservation = () => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const outlet = useOutlet();
 
   const { isLoading, onSearch } = useSearch();
-  const { checkAvailability } = useReservation();
+  const { checkAvailability, reservation } = useReservation();
 
   const onChangeEditing = useCallback((isEditing: boolean) => {
     setIsEditing(isEditing);
@@ -79,6 +80,18 @@ const Reservation = () => {
               </p>
             ))}
           </WrapperCard>
+
+          {/* Timer */}
+          {reservation.timer ? (
+            <WrapperCard>
+              <div className="flex h-16 flex-row-reverse items-center justify-between gap-4">
+                <p>{t('La tua prenotazione è ancora valida')}</p>
+                <div className="">
+                  <Timer duration={60 * 10} initialRemainingTime={reservation.timer} />
+                </div>
+              </div>
+            </WrapperCard>
+          ) : null}
         </div>
 
         <div className="flex w-full flex-col gap-6">

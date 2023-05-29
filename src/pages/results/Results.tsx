@@ -86,6 +86,7 @@ const Results = () => {
           updateReservation({
             confirmReservation: true,
             rooms: idAlloggi,
+            timer: new Date(),
           });
 
           return navigate('/checkout');

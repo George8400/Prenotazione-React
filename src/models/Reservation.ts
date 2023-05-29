@@ -38,6 +38,7 @@ export type ReservationDataType = {
   numNights: number;
   confirmReservation: boolean; // true quando si va avanti con il tasto prosegui; altrimenti i dati inseriti non sono validi per lo step successivo
   paymentMade: boolean;
+  timer: Date | null;
 };
 
 export type CategoryRateDataType = {

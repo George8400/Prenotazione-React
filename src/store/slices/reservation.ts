@@ -23,6 +23,7 @@ const initialState: ReservationDataType = {
   numNights: 0,
   confirmReservation: false, // true quando si va avanti con il tasto prosegui; altrimenti i dati inseriti non sono validi per lo step successivo
   paymentMade: false,
+  timer: null,
 };
 
 export const reservationSlice = createSlice({
