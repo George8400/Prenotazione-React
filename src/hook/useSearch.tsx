@@ -3,7 +3,7 @@ import Api from '../api/controller/Api';
 import { CheckAvailabilityDataType } from '../models/Reservation';
 import { setResultsCheckAvailability } from '../store/slices/resultsCheckAvailability';
 import useReservation from '../store/hook/useReservation';
-import { useAppDispatch, useAppSelector } from './useRTK';
+import { useAppDispatch } from './useRTK';
 import { useNavigate } from 'react-router-dom';
 
 const useSearch = () => {

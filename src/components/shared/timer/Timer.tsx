@@ -11,10 +11,10 @@ const Timer = ({ duration, initialRemainingTime, onCompleted }: TimerProps) => {
   const calculateRemainingTime = useMemo(() => {
     const now = new Date();
     const initialRemaining = new Date(initialRemainingTime);
-    const remainingTime = Math.abs(now.getTime() - initialRemaining.getTime()) / 1000;
+    const remainingTime = Math.abs(initialRemaining.getTime() - now.getTime()) / 1000;
 
-    return remainingTime;
-  }, [initialRemainingTime]);
+    return remainingTime > duration ? 0 : duration - remainingTime;
+  }, [initialRemainingTime, duration]);
 
   return (
     <CountdownCircleTimer

@@ -1,7 +1,7 @@
 import { CheckCircleIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import Lottie from 'lottie-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutlet } from 'react-router-dom';
 import WrapperCard from '../components/core/WrapperCard';
@@ -11,6 +11,9 @@ import useReservation from '../store/hook/useReservation';
 import Overlay from '../components/shared/overlay/Overlay';
 import useSearch from '../hook/useSearch';
 import Timer from '../components/shared/timer/Timer';
+import ExpiredReservationDialog from '../components/shared/dialog/ExpiredReservationDialog';
+import sadAnimation from '../assets/animations/sad-animation.json';
+import clockAnimation from '../assets/animations/clock-animation.json';
 
 /**
  * Funnel Step:
@@ -28,10 +31,22 @@ const Reservation = () => {
   const outlet = useOutlet();
 
   const { isLoading, onSearch } = useSearch();
-  const { checkAvailability, reservation } = useReservation();
+  const { checkAvailability, reservation, updateReservation } = useReservation();
 
   const onChangeEditing = useCallback((isEditing: boolean) => {
     setIsEditing(isEditing);
+  }, []);
+
+  const expiredTimer = useCallback(() => {
+    console.log('expiredTimer');
+    updateReservation({ expired: true });
+  }, []);
+
+  useLayoutEffect(() => {
+    if (reservation.expired) {
+      updateReservation(undefined, 'reset');
+      onSearch(checkAvailability);
+    }
   }, []);
 
   return (
@@ -82,12 +97,12 @@ const Reservation = () => {
           </WrapperCard>
 
           {/* Timer */}
-          {reservation.timer ? (
+          {reservation.timer && !reservation.paymentMade ? (
             <WrapperCard>
               <div className="flex h-16 flex-row-reverse items-center justify-between gap-4">
                 <p>{t('La tua prenotazione è ancora valida')}</p>
                 <div className="">
-                  <Timer duration={60 * 10} initialRemainingTime={reservation.timer} />
+                  <Timer duration={60 * 15} initialRemainingTime={reservation.timer} onCompleted={expiredTimer} />
                 </div>
               </div>
             </WrapperCard>
@@ -147,6 +162,18 @@ const Reservation = () => {
       </div>
 
       <Overlay isOpen={isLoading} />
+
+      <ExpiredReservationDialog
+        isOpen={reservation.expired}
+        onClose={() => {
+          updateReservation(undefined, 'reset');
+          onSearch(checkAvailability);
+        }}
+        title={t('La tua prenotazione è scaduta')}
+        description={t('La tua prenotazione è scaduta, riprova a fare una nuova ricerca')}
+        buttonLabel="Nuova ricerca"
+        jsonAnimation={sadAnimation}
+      />
     </div>
   );
 };

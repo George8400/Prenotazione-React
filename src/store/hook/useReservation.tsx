@@ -52,13 +52,27 @@ const useReservation = () => {
     dispatch(setReservation(data));
   };
 
+  const resetStore = () => {
+    dispatch(setBlockRoomsReset());
+    dispatch(setCheckAvailabilityReset());
+    dispatch(setReservationReset());
+  };
+
   useEffect(() => {
     if (!checkAvailability.startDate || !checkAvailability.endDate) {
       navigate('/');
     }
   }, [checkAvailability]);
 
-  return { updateBlockRooms, updateCheckAvailability, updateReservation, blockRooms, checkAvailability, reservation };
+  return {
+    updateBlockRooms,
+    updateCheckAvailability,
+    updateReservation,
+    resetStore,
+    blockRooms,
+    checkAvailability,
+    reservation,
+  };
 };
 
 export default useReservation;

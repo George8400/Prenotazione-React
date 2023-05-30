@@ -7,19 +7,26 @@ import CategoryRateCard from '../../components/shared/cards/CategoryRateCard';
 import { useLayoutEffect } from 'react';
 import WrapperCard from '../../components/core/WrapperCard';
 import { UserIcon } from '@heroicons/react/24/outline';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutSuccess = () => {
-  const { reservation } = useReservation();
+  const { reservation, resetStore } = useReservation();
 
   const { firstName, lastName, email, phone } = reservation;
+
+  const navigate = useNavigate();
 
   const { t } = useTranslation();
 
   useLayoutEffect(() => {
     if (!reservation.confirmReservation || !reservation.paymentMade) {
-      window.location.href = '/';
+      navigate('/');
     }
-  }, [reservation]);
+
+    return () => {
+      resetStore();
+    };
+  }, []);
 
   return (
     <div className="container max-w-3xl animate-fadeIn py-16">
