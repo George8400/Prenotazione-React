@@ -1,12 +1,10 @@
-import { PencilSquareIcon, UserIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
+import { UserIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { t } from 'i18next';
 import Input from '../../core/Input';
 import CalendarButton from '../calendar/CalendarButton';
 import Button from '../../core/Button';
-import CustomDropDownMenu from '../../core/CustomPopover';
-import CustomPopover from '../../core/CustomPopover';
-import { Fragment, RefObject, useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import CustomTransition from '../../core/CustomTransition';
 import WrapperCard from '../../core/WrapperCard';
 import { utilsDate } from './utils/utils';
@@ -87,7 +85,7 @@ const SearchSidebar = ({ onChangeEditing, onSearch, initialData, className }: Se
   }, [ref]);
 
   return (
-    <WrapperCard ref={ref} className={className}>
+    <WrapperCard ref={ref} className={className + ' cursor-pointer hover:shadow-2xl'}>
       <div className="flex items-center justify-between">
         <h3 className="text-xl font-bold">{t('La tua ricerca')}</h3>
         <button className="text-sm text-dark" onClick={() => handleChangeEditing(!isEditing)}>

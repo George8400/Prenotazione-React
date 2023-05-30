@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Lottie from 'lottie-react';
 import { useCallback, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useOutlet } from 'react-router-dom';
+import { useNavigate, useOutlet } from 'react-router-dom';
 import WrapperCard from '../components/core/WrapperCard';
 import SearchSidebar from '../components/shared/search-sidebar/SearchSidebar';
 import searchAnimation from '../assets/animations/search-animation.json';
@@ -29,6 +29,7 @@ const Reservation = () => {
 
   const { t } = useTranslation();
   const outlet = useOutlet();
+  const navigate = useNavigate();
 
   const { isLoading, onSearch } = useSearch();
   const { checkAvailability, reservation, updateReservation } = useReservation();
@@ -40,6 +41,14 @@ const Reservation = () => {
   const expiredTimer = useCallback(() => {
     console.log('expiredTimer');
     updateReservation({ expired: true });
+  }, []);
+
+  const gotToReservation = useCallback(() => {
+    if (reservation?.confirmReservation) {
+      navigate('/checkout');
+    } else {
+      navigate('/risultati');
+    }
   }, []);
 
   useLayoutEffect(() => {
@@ -98,7 +107,11 @@ const Reservation = () => {
 
           {/* Timer */}
           {reservation.timer && !reservation.paymentMade ? (
-            <WrapperCard>
+            <WrapperCard
+              onClick={gotToReservation}
+              className="border-transp cursor-pointer border hover:border-primary-400
+            hover:shadow-xl"
+            >
               <div className="flex h-16 flex-row-reverse items-center justify-between gap-4">
                 <p>{t('La tua prenotazione è ancora valida')}</p>
                 <div className="">

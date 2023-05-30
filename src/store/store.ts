@@ -18,15 +18,31 @@ const persistReservationConfig = {
   storage,
 };
 
+const persistResultsCheckAvailabilityConfig = {
+  key: 'resultsCheckAvailability',
+  storage,
+};
+
+const persistBlockRoomsConfig = {
+  key: 'blockRooms',
+  storage,
+};
+
 const checkAvailabilityPersistedReducer = persistReducer(persistCheckAvailabilityConfig, checkAvailabilityReducer);
 const reservationPersistedReducer = persistReducer(persistReservationConfig, reservationReducer);
+const resultsCheckAvailabilityPersistedReducer = persistReducer(
+  persistResultsCheckAvailabilityConfig,
+  resultsCheckAvailabilityReducer,
+);
+
+const blockRoomsPersistedReducer = persistReducer(persistBlockRoomsConfig, blockRoomsReducer);
 
 export const store = configureStore({
   reducer: {
     checkAvailability: checkAvailabilityPersistedReducer,
-    blockRooms: blockRoomsReducer,
+    blockRooms: blockRoomsPersistedReducer,
     reservation: reservationPersistedReducer,
-    resultsCheckAvailability: resultsCheckAvailabilityReducer,
+    resultsCheckAvailability: resultsCheckAvailabilityPersistedReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
