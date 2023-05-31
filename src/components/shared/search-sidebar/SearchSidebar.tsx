@@ -78,11 +78,11 @@ const SearchSidebar = ({ onChangeEditing, onSearch, initialData, className }: Se
     handleChangeEditing(false);
   }, [dataState]);
 
-  useEffect(() => {
-    if (ref.current) {
-      setHeight(ref.current.offsetHeight);
-    }
-  }, [ref]);
+  // useEffect(() => {
+  //   if (ref.current) {
+  //     setHeight(ref.current.offsetHeight);
+  //   }
+  // }, [ref]);
 
   return (
     <WrapperCard ref={ref} className={className + ' cursor-pointer hover:shadow-2xl'}>

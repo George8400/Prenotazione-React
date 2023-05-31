@@ -17,11 +17,10 @@ const ReservationSuccessDialog = ({ isOpen, onClose }: CustomDialogProps) => {
 
         <div className="mt-2">
           <p className="text-center text-base text-gray-500">
-            {t('La tua prenotazione è stata effettuata con successo. Troverai maggiori informazioni nella tua email.')}
-
+            {t('La tua prenotazione è stata effettuata con successo')}.
+            {t('Riceverai una mail con i dettagli della prenotazione')}.
             <br />
             <br />
-
             <strong> {t('Ti aspettiamo!')} </strong>
           </p>
         </div>

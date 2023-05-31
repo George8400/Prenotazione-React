@@ -1,7 +1,7 @@
 import { CheckCircleIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import Lottie from 'lottie-react';
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useOutlet } from 'react-router-dom';
 import WrapperCard from '../components/core/WrapperCard';
@@ -39,7 +39,6 @@ const Reservation = () => {
   }, []);
 
   const expiredTimer = useCallback(() => {
-    console.log('expiredTimer');
     updateReservation({ expired: true });
   }, []);
 

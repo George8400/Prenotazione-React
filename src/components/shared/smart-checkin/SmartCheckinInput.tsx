@@ -106,7 +106,10 @@ const SmartCheckinInput = () => {
         <h2 className="text-xl font-bold lg:text-2xl">{t('Smart Check-in')}</h2>
         <p className="font-open text-xs">
           {t(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+          )}
+          {t(
+            'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
           )}
         </p>
 

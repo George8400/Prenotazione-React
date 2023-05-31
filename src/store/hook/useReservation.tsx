@@ -5,6 +5,7 @@ import { setBlockRooms, setBlockRoomsReset } from '../slices/blockRooms';
 import { setCheckAvailability, setCheckAvailabilityReset } from '../slices/checkAvailability';
 import { setReservation, setReservationReset } from '../slices/reservation';
 import { useNavigate } from 'react-router-dom';
+import Api from '../../api/controller/Api';
 
 const useReservation = () => {
   const { blockRooms, checkAvailability, reservation } = useAppSelector((state) => state);
@@ -52,6 +53,17 @@ const useReservation = () => {
     dispatch(setReservation(data));
   };
 
+  const resetBreakReservation = async () => {
+    return Api.unblockRooms(blockRooms.rooms)
+      .then(() => {
+        dispatch(setBlockRoomsReset());
+        dispatch(setReservationReset());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const resetStore = () => {
     dispatch(setBlockRoomsReset());
     dispatch(setCheckAvailabilityReset());
@@ -69,6 +81,7 @@ const useReservation = () => {
     updateCheckAvailability,
     updateReservation,
     resetStore,
+    resetBreakReservation,
     blockRooms,
     checkAvailability,
     reservation,

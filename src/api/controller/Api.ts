@@ -68,6 +68,15 @@ class Api {
     };
   };
 
+  static unblockRooms = async (idRooms: string[]) => {
+    const res = await fetcher(ApiRoutes.SBLOCCA_STANZE_API, {
+      method: 'POST',
+      body: JSON.stringify(idRooms),
+    });
+
+    return res as {};
+  };
+
   static temporaryReservation = async (data: ReservationDataType) => {
     // il tipo corrisponde a ReservationDataType
     const body: TemporaryReservationBodyType & Record<string, any> = {

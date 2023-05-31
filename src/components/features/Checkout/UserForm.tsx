@@ -129,7 +129,10 @@ const UserForm = ({ initialState, paymentMade, onSubmit }: UserFormProps) => {
           />
           <label htmlFor="primary-checkbox" className="ml-2 font-open text-xs text-dark">
             {t(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ',
+            )}
+            {t(
+              'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
             )}
           </label>
         </div>
@@ -144,7 +147,10 @@ const UserForm = ({ initialState, paymentMade, onSubmit }: UserFormProps) => {
           />
           <label htmlFor="secondary-checkbox" className="ml-2 font-open text-xs text-dark">
             {t(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+            )}
+            {t(
+              'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
             )}
           </label>
         </div>

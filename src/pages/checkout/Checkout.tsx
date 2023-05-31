@@ -13,10 +13,11 @@ import Overlay from '../../components/shared/overlay/Overlay';
 const Checkout = () => {
   const [isLoadingCapture, setIsLoadingCapture] = useState(false);
   const [isLoadingTemporaryReservation, setIsLoadingTemporaryReservation] = useState(false);
+  const [isLoadingUnblockRooms, setIsLoadingUnblockRooms] = useState(false);
   const [showSuccessCapture, setShowSuccessCapture] = useState(false);
   const [showErrorCapture, setShowErrorCapture] = useState(false);
 
-  const { updateReservation, reservation } = useReservation();
+  const { updateReservation, updateBlockRooms, blockRooms, reservation } = useReservation();
   const params = useSearchParams();
 
   const { t } = useTranslation();
@@ -84,6 +85,22 @@ const Checkout = () => {
     navigate('/checkout/success');
   };
 
+  const onEditReservation = () => {
+    setIsLoadingUnblockRooms(true);
+    Api.unblockRooms(blockRooms.rooms)
+      .then((res) => {
+        console.log('unblockRooms', res);
+        updateBlockRooms(undefined, 'reset');
+        navigate('/risultati');
+      })
+      .catch((err) => {
+        console.log('unblockRooms', err);
+      })
+      .finally(() => {
+        setIsLoadingUnblockRooms(false);
+      });
+  };
+
   useLayoutEffect(() => {
     if (!reservation.confirmReservation || reservation.paymentMade) {
       updateReservation(undefined, 'reset');
@@ -95,7 +112,7 @@ const Checkout = () => {
 
   return (
     <div className="animate-fadeIn space-y-6">
-      <CategoryRateCard reservation={reservation} onEdit={() => navigate('/risultati')} />
+      <CategoryRateCard reservation={reservation} onEdit={onEditReservation} />
 
       <WrapperCard>
         <h2 className="text-xl font-bold lg:text-2xl">{t('Hai quasi terminato, inserisci i dati richiesti:')}</h2>
@@ -115,7 +132,7 @@ const Checkout = () => {
 
       <ErrorDialog
         title={t('Ooops!')}
-        description={t('Si è verificato un errore durante la prenotazione. Riprova più tardi.')}
+        description={t('Si è verificato un errore durante la prenotazione') + ' ' + t('Riprova più tardi')}
         isOpen={showErrorCapture}
         onClose={() => setShowErrorCapture(false)}
       />
@@ -124,8 +141,10 @@ const Checkout = () => {
 
       <Overlay
         isOpen={isLoadingTemporaryReservation || isLoadingCapture}
-        text={t('Verifica Informazioni...').toString()}
+        text={t('Verifica Informazioni').toString() + '...'}
       />
+
+      <Overlay isOpen={isLoadingUnblockRooms} />
     </div>
   );
 };

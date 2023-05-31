@@ -96,7 +96,7 @@ const Results = () => {
           // mostrare un alert con le categorie mancanti
           setErrorMessage({
             title: t('Camere non più disponibili'),
-            message: t('Le camere selezionate non sono più disponibili. Seleziona nuove camere.'),
+            message: t('Le camere selezionate non sono più disponibili') + ' ' + t('Seleziona nuove camere'),
           });
         }
       })
@@ -104,7 +104,7 @@ const Results = () => {
         console.log('err', err);
         setErrorMessage({
           title: t('Ooops!'),
-          message: t('Qualcosa è andato storto. Riprova più tardi. :('),
+          message: t('Qualcosa è andato storto') + ' ' + t('Riprova più tardi'),
         });
       });
   };
@@ -130,9 +130,9 @@ const Results = () => {
               <div
                 key={categoria.idCategoria}
                 className={clsx(
-                  'flex w-full animate-fadeIn flex-col items-start overflow-hidden rounded-md shadow-full transition-all duration-300',
+                  'flex w-full animate-fadeIn flex-col items-start overflow-hidden rounded-md shadow-full',
                   {
-                    '': categorySelected,
+                    'border-2 border-free/60': categorySelected,
                   },
                 )}
               >
@@ -198,7 +198,7 @@ const Results = () => {
                             <span className="text-right text-xs text-dark">
                               {t('Prezzo per')}
                               <span> {reservation.numNights} </span>
-                              {reservation.numNights > 1 ? t(' notti') : t(' notte')}
+                              {reservation.numNights > 1 ? t('notti') : t('notte')}
                             </span>
                           </div>
                         </div>
