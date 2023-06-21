@@ -9,9 +9,9 @@ const container = document.getElementById('barbieri-widget');
 const root = createRoot(container!);
 
 root.render(
-  <React.StrictMode>
-    <HashRouter>
-      <App />
-    </HashRouter>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <HashRouter>
+    <App />
+  </HashRouter>,
+  // </React.StrictMode>,
 );

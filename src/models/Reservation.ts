@@ -4,6 +4,7 @@ export type CheckAvailabilityDataType = {
   numAdults: number;
   numChildren: number;
   numRooms: number;
+  numNights: number;
   coupon: string;
 };
 

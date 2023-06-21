@@ -149,7 +149,7 @@ const Results = () => {
                       <h2 className="text-xl font-bold lg:text-2xl">{categoria?.categoria}</h2>
                       <p className="mt-1 text-xs text-gray-500">{categoria?.descrizione}</p>
 
-                      <span className="mt-3 block font-semibold">1 letto matrimoniale ??</span>
+                      {/* <span className="mt-3 block font-semibold">1 letto matrimoniale ??</span> */}
                     </div>
                   </div>
 
@@ -197,8 +197,8 @@ const Results = () => {
                             </a>
                             <span className="text-right text-xs text-dark">
                               {t('Prezzo per')}
-                              <span> {reservation.numNights} </span>
-                              {reservation.numNights > 1 ? t('notti') : t('notte')}
+                              <span> {checkAvailability?.numNights} </span>
+                              {checkAvailability?.numNights > 1 ? t('notti') : t('notte')}
                             </span>
                           </div>
                         </div>
@@ -224,6 +224,7 @@ const Results = () => {
             );
           })}
 
+          {/* Risultati  */}
           <div className="fixed inset-x-0 bottom-0 border-t bg-white/60 py-5 backdrop-blur-md">
             <div className="container flex items-center justify-between gap-4">
               <p className="text-base md:text-xl [&>span]:text-free">

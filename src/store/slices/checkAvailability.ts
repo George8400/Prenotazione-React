@@ -7,6 +7,7 @@ const initialState: CheckAvailabilityDataType = {
   numAdults: 0,
   numChildren: 0,
   numRooms: 0,
+  numNights: 0,
   coupon: '',
 };
 

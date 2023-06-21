@@ -9,11 +9,14 @@ import Api from '../../api/controller/Api';
 import ErrorDialog from '../../components/shared/dialog/ErrorDialog';
 import ReservationSuccessDialog from '../../components/shared/dialog/ReservationSuccessDialog';
 import Overlay from '../../components/shared/overlay/Overlay';
+import ConfirmDialog from '../../components/shared/dialog/ConfirmDialog';
 
 const Checkout = () => {
   const [isLoadingCapture, setIsLoadingCapture] = useState(false);
   const [isLoadingTemporaryReservation, setIsLoadingTemporaryReservation] = useState(false);
   const [isLoadingUnblockRooms, setIsLoadingUnblockRooms] = useState(false);
+
+  const [showAlertEditReservation, setShowAlertEditReservation] = useState(false);
   const [showSuccessCapture, setShowSuccessCapture] = useState(false);
   const [showErrorCapture, setShowErrorCapture] = useState(false);
 
@@ -89,8 +92,8 @@ const Checkout = () => {
     setIsLoadingUnblockRooms(true);
     Api.unblockRooms(blockRooms.rooms)
       .then((res) => {
-        console.log('unblockRooms', res);
         updateBlockRooms(undefined, 'reset');
+        updateReservation(undefined, 'reset');
         navigate('/risultati');
       })
       .catch((err) => {
@@ -112,7 +115,7 @@ const Checkout = () => {
 
   return (
     <div className="animate-fadeIn space-y-6">
-      <CategoryRateCard reservation={reservation} onEdit={onEditReservation} />
+      <CategoryRateCard reservation={reservation} onEdit={() => setShowAlertEditReservation(true)} />
 
       <WrapperCard>
         <h2 className="text-xl font-bold lg:text-2xl">{t('Hai quasi terminato, inserisci i dati richiesti:')}</h2>
@@ -129,6 +132,13 @@ const Checkout = () => {
           }}
         />
       </WrapperCard>
+
+      {/* MODAL */}
+      <ConfirmDialog
+        isOpen={showAlertEditReservation}
+        onClose={() => setShowAlertEditReservation(false)}
+        onAction={() => onEditReservation()}
+      />
 
       <ErrorDialog
         title={t('Ooops!')}

@@ -16,11 +16,11 @@ const useAPi = ({ api, body, headers, method, url, onError, onSuccess }: ApiProp
   const { data, error, isLoading, mutate } = useSWR(ApiRoutes[api], fetcher);
 
   if (error) {
-    onError && onError(error);
+    onError?.(error);
   }
 
   if (data) {
-    onSuccess && onSuccess(data);
+    onSuccess?.(data);
     console.log('data', data);
   }
 

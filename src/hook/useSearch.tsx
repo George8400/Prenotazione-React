@@ -5,6 +5,7 @@ import { setResultsCheckAvailability } from '../store/slices/resultsCheckAvailab
 import useReservation from '../store/hook/useReservation';
 import { useAppDispatch } from './useRTK';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 const useSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,11 +34,13 @@ const useSearch = () => {
   const onSearch = useCallback(
     (data: CheckAvailabilityDataType) => {
       setIsLoading(true);
-      updateCheckAvailability(data);
+      updateCheckAvailability({
+        ...data,
+        numNights: moment(data?.endDate).diff(moment(data?.startDate), 'days') ?? 0,
+      });
 
       Api.searchCategoryRate(data)
         .then((res) => {
-          console.log('res', res);
           updateReservation(undefined, 'reset');
 
           dispatch(setResultsCheckAvailability(res));

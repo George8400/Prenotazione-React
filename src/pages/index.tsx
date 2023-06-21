@@ -1,7 +1,7 @@
 import { CheckCircleIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import Lottie from 'lottie-react';
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useOutlet } from 'react-router-dom';
 import WrapperCard from '../components/core/WrapperCard';
@@ -13,7 +13,6 @@ import useSearch from '../hook/useSearch';
 import Timer from '../components/shared/timer/Timer';
 import ExpiredReservationDialog from '../components/shared/dialog/ExpiredReservationDialog';
 import sadAnimation from '../assets/animations/sad-animation.json';
-import clockAnimation from '../assets/animations/clock-animation.json';
 
 /**
  * Funnel Step:
@@ -183,7 +182,7 @@ const Reservation = () => {
         }}
         title={t('La tua prenotazione è scaduta')}
         description={t('La tua prenotazione è scaduta, riprova a fare una nuova ricerca')}
-        buttonLabel="Nuova ricerca"
+        buttonLabel={t('Nuova ricerca').toString()}
         jsonAnimation={sadAnimation}
       />
     </div>
