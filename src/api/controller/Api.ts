@@ -5,7 +5,6 @@ import { ApiRoutes } from '../routes/apiRoutes';
 import { fetcher } from '../utils/fetcher';
 import { TemporaryReservationBodyType } from '../../models/apiRequestData/TemporaryReservationBody';
 import moment from 'moment';
-import { isArray } from 'util';
 
 class Api {
   static searchCategoryRate = async (data: CheckAvailabilityDataType) => {

@@ -106,9 +106,8 @@ const Reservation = () => {
           {/* Timer */}
           {reservation.timer && !reservation.paymentMade ? (
             <WrapperCard
-              onClick={gotToReservation}
-              className="border-transp cursor-pointer border hover:border-primary-400
-            hover:shadow-xl"
+              // onClick={gotToReservation}
+              className="border-transp  border hover:shadow-xl"
             >
               <div className="flex h-16 flex-row-reverse items-center justify-between gap-4">
                 <p>{t('La tua prenotazione è ancora valida')}</p>
